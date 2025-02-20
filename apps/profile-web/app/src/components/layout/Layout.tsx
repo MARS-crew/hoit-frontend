@@ -1,6 +1,5 @@
 import { Outlet } from 'react-router-dom'
 import { Navigation } from './Navigation'
-import { PWAUpdatePrompt } from '../common/PWAUpdatePrompt'
 
 export const Layout = () => {
   return (
@@ -11,7 +10,6 @@ export const Layout = () => {
       </main>
       {/* 모바일 네비게이션을 위한 하단 여백 */}
       <div className="h-16 md:hidden" />
-      <PWAUpdatePrompt />
     </div>
   )
 } 
