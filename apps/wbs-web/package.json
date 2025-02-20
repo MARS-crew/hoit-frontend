@@ -1,0 +1,11 @@
+{
+  "name": "wbs-web",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "start": "vite preview",
+    "lint": "eslint src/**/*.{ts,tsx}"
+  }
+} 
