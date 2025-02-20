@@ -1,0 +1,46 @@
+import { createBrowserRouter, Navigate } from 'react-router-dom'
+import { Layout } from '@/components/layout/Layout'
+import { ProtectedRoute } from '@/components/auth/ProtectedRoute'
+import { LoginPage } from '@/pages/auth/LoginPage'
+import { NotFoundPage } from '@/pages/error/NotFoundPage'
+import { ErrorPage } from '@/pages/error/ErrorPage'
+import { ProjectListPage } from '@/pages/ProjectListPage'
+import { ProfilePage } from '@/pages/ProfilePage'
+
+export const router = createBrowserRouter([
+  {
+    path: '/',
+    element: <Layout />,
+    errorElement: <ErrorPage />,
+    children: [
+      {
+        path: '',
+        element: <Navigate to="/login" replace />,
+      },
+      {
+        path: 'projects',
+        element: (
+          <ProtectedRoute>
+            <ProjectListPage />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: 'profile',
+        element: (
+          <ProtectedRoute>
+            <ProfilePage />
+          </ProtectedRoute>
+        ),
+      },
+    ],
+  },
+  {
+    path: '/login',
+    element: <LoginPage />,
+  },
+  {
+    path: '*',
+    element: <NotFoundPage />,
+  },
+]) 

@@ -3,12 +3,19 @@
   "private": true,
   "scripts": {
     "build": "turbo run build",
-    "dev": "turbo run dev",
+    "dev": "pnpm --filter profile-web dev",
     "lint": "turbo run lint",
     "test": "turbo run test"
   },
   "workspaces": [
     "apps/*",
     "packages/*"
-  ]
-} 
+  ],
+  "dependencies": {
+    "@tailwindcss/forms": "^0.5.10",
+    "@tanstack/react-query": "^5.66.7",
+    "axios": "^1.7.9",
+    "react-hook-form": "^7.54.2",
+    "recoil": "^0.7.7"
+  }
+}
