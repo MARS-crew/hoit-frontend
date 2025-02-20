@@ -5,10 +5,9 @@ import { isAuthenticatedState } from '@/states/auth'
 
 interface ProtectedRouteProps {
   children: React.ReactNode
-  requiredRole?: string
 }
 
-export const ProtectedRoute = ({ children, requiredRole }: ProtectedRouteProps) => {
+export const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
   const navigate = useNavigate()
   const location = useLocation()
   const isAuthenticated = useRecoilValue(isAuthenticatedState)
@@ -21,7 +20,7 @@ export const ProtectedRoute = ({ children, requiredRole }: ProtectedRouteProps) 
       })
     }
     // 여기에 role 체크 로직 추가 가능
-  }, [isAuthenticated, navigate, location])
+  }, [isAuthenticated, navigate])
 
   return isAuthenticated ? <>{children}</> : null
 } 

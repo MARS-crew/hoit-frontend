@@ -1,16 +1,17 @@
 import { Outlet } from 'react-router-dom'
+import { Navigation } from './Navigation'
+import { PWAUpdatePrompt } from '../common/PWAUpdatePrompt'
 
 export const Layout = () => {
   return (
     <div className="min-h-screen">
-      <header className="border-b">
-        <div className="container py-4">
-          <h1 className="text-xl font-bold">Hoit</h1>
-        </div>
-      </header>
-      <main className="container py-8">
+      <Navigation />
+      <main className="container py-8 md:py-12">
         <Outlet />
       </main>
+      {/* 모바일 네비게이션을 위한 하단 여백 */}
+      <div className="h-16 md:hidden" />
+      <PWAUpdatePrompt />
     </div>
   )
 } 
