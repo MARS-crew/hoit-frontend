@@ -40,15 +40,19 @@ const navItems = [
   },
 ]
 
-export const Navigation = () => {
+interface NavigationProps {
+  className?: string
+}
+
+export const Navigation = ({ className }: NavigationProps) => {
   return (
-    <nav className="bg-white border-b">
+    <nav className={`bg-white border-b ${className || ''}`}>
       {/* 데스크톱 네비게이션 */}
-      <div className="container">
+      <div className="hidden md:block container">
         <div className="flex items-center justify-between h-16">
           <div className="flex items-center">
             <h1 className="text-xl font-bold">Hoit</h1>
-            <div className="hidden md:block ml-10">
+            <div className="ml-10">
               <div className="flex space-x-4">
                 {navItems.map((item) => (
                   <NavLink
