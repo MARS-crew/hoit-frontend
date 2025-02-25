@@ -6,9 +6,9 @@ export const Layout = () => {
   return (
     <div className="min-h-screen">
       <Navigation className="sticky top-0 z-20" />
-      <main className="relative min-h-[calc(100vh-4rem)]">
+      <main className="relative flex-1">
         <PageTransition>
-          <div className="container py-8 md:py-12">
+          <div className="container py-8 md:py-12 min-h-[calc(100vh-4rem)]">
             <Outlet />
           </div>
         </PageTransition>

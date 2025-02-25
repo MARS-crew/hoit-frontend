@@ -29,8 +29,8 @@ export const PageTransition = ({ children }: { children: React.ReactNode }) => {
   })
 
   return (
-    <div {...handlers} className="touch-pan-y absolute inset-0">
-      <AnimatePresence initial={false}>
+    <div {...handlers} className="relative min-h-full">
+      <AnimatePresence mode="wait">
         <motion.div
           key={location.pathname}
           initial={{ opacity: 0, x: currentIndex === -1 ? 0 : 100 }}
@@ -41,6 +41,7 @@ export const PageTransition = ({ children }: { children: React.ReactNode }) => {
             stiffness: 260,
             damping: 20
           }}
+          className="w-full"
         >
           {children}
         </motion.div>
