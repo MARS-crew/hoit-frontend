@@ -19,7 +19,7 @@ export const LoginPage = () => {
   
   useEffect(() => {
     if (isAuthenticated) {
-      navigate('/projects', { replace: true })
+      navigate('/recommended', { replace: true })
     }
   }, [isAuthenticated, navigate])
 
@@ -42,7 +42,7 @@ export const LoginPage = () => {
     onSuccess: (data) => {
       setUser(data.user)
       setIsAuthenticated(true)
-      navigate('/projects', { replace: true })
+      navigate('/recommended', { replace: true })
     },
     onError: (error) => {
       alert(error instanceof Error ? error.message : '로그인에 실패했습니다.')
@@ -52,6 +52,11 @@ export const LoginPage = () => {
   const onSubmit = (data: LoginForm) => {
     loginMutation.mutate(data)
   }
+
+  const handleLoginSuccess = () => {
+    // projects 페이지 대신 recommended 페이지로 이동
+    navigate('/recommended');
+  };
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
