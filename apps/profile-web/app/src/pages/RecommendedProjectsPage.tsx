@@ -298,7 +298,7 @@ export const RecommendedProjectsPage = () => {
                       <h2 className="text-xl font-bold">{user.name} 상세 프로필</h2>
                     </div>
 
-                    <div className="space-y-6 overflow-y-auto flex-1 pb-20">
+                    <div className="space-y-6 overflow-y-auto flex-1 pb-20" style={{ touchAction: 'pan-y' }}>
                       <div>
                         <h3 className="font-medium mb-2">홀길동</h3>
                         <p className="text-gray-600">010-9076-3143</p>
