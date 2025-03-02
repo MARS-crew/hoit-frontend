@@ -21,18 +21,18 @@ export const router = createBrowserRouter([
         element: <Navigate to="/login" replace />,
       },
       {
-        path: 'projects',
-        element: (
-          <ProtectedRoute>
-            <ProjectListPage />
-          </ProtectedRoute>
-        ),
-      },
-      {
         path: 'recommended',
         element: (
           <ProtectedRoute>
             <RecommendedProjectsPage />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: 'projects',
+        element: (
+          <ProtectedRoute>
+            <ProjectListPage />
           </ProtectedRoute>
         ),
       },
