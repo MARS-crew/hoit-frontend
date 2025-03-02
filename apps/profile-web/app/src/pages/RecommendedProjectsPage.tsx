@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import { motion, AnimatePresence, PanInfo } from 'framer-motion'
+import { motion } from 'framer-motion'
 import { useState } from 'react'
 
 interface TechBadgeProps {
@@ -35,14 +35,13 @@ const PreferenceBadge = ({ preference }: PreferenceBadgeProps) => (
 
 export const RecommendedProjectsPage = () => {
   const [currentIndex, setCurrentIndex] = useState(0)
-  const [direction, setDirection] = useState(0)
 
   const recommendedUsers = [
     {
       id: 'piano-man',
       name: '피아노맨',
       githubUrl: 'github.com',
-      repoCount: 27,
+      linkCount: 3,
       starCount: 103,
       techStack: [
         { count: 6, tech: 'Java' },
@@ -58,7 +57,7 @@ export const RecommendedProjectsPage = () => {
       id: 'hyochan-man',
       name: '효찬맨',
       githubUrl: 'github.com',
-      repoCount: 35,
+      linkCount: 4,
       starCount: 245,
       techStack: [
         { count: 8, tech: 'Python' },
@@ -71,31 +70,6 @@ export const RecommendedProjectsPage = () => {
       description: '아르다운 청춘의 한장 함께 써내려 가자 너와의 추억들로 가득 채울래 컴온!',
     },
   ]
-
-  const swipeConfidenceThreshold = 10000
-  const swipePower = (offset: number, velocity: number) => {
-    return Math.abs(offset) * velocity
-  }
-
-  const paginate = (newDirection: number) => {
-    if (newDirection > 0 && currentIndex < recommendedUsers.length - 1) {
-      setCurrentIndex(currentIndex + 1)
-      setDirection(newDirection)
-    } else if (newDirection < 0 && currentIndex > 0) {
-      setCurrentIndex(currentIndex - 1)
-      setDirection(newDirection)
-    }
-  }
-
-  const handleDragEnd = (_: PointerEvent, { offset, velocity }: PanInfo) => {
-    const swipe = swipePower(offset.y, velocity.y)
-
-    if (swipe < -swipeConfidenceThreshold) {
-      paginate(1)
-    } else if (swipe > swipeConfidenceThreshold) {
-      paginate(-1)
-    }
-  }
 
   return (
     <div className="space-y-6">
@@ -114,7 +88,7 @@ export const RecommendedProjectsPage = () => {
                 <svg className="w-4 h-4 inline" fill="currentColor" viewBox="0 0 24 24">
                 </svg>
               </Link>
-              <span className="text-gray-500">{user.repoCount}개</span>
+              <span className="text-gray-500">my-github 외 {user.linkCount}개</span>
               <span className="flex items-center gap-1 text-gray-500">
                 <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
                 </svg>
@@ -155,85 +129,97 @@ export const RecommendedProjectsPage = () => {
 
       {/* 모바일 뷰 */}
       <div className="md:hidden h-[calc(100vh-12rem)] relative overflow-hidden">
-        <AnimatePresence initial={false} custom={direction}>
-          <motion.div
-            key={currentIndex}
-            custom={direction}
-            initial={{ opacity: 0, y: direction > 0 ? 1000 : -1000 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: direction > 0 ? -1000 : 1000 }}
-            transition={{ duration: 0.3 }}
-            drag="y"
-            dragConstraints={{ top: 0, bottom: 0 }}
-            dragElastic={1}
-            onDragEnd={handleDragEnd}
-            className="absolute inset-0"
-          >
-            <div className="h-full p-6 bg-white rounded-lg">
-              <div className="h-full flex flex-col">
-                {/* 프로필 헤더 */}
-                <div className="mb-6">
-                  <h2 className="text-xl font-bold mb-2">{recommendedUsers[currentIndex].name}</h2>
-                  <p className="text-gray-600">{recommendedUsers[currentIndex].description}</p>
-                </div>
+        <div className="absolute inset-0">
+          {recommendedUsers.map((user, index) => (
+            <motion.div
+              key={index}
+              style={{
+                position: 'absolute',
+                width: '100%',
+                height: '100%',
+              }}
+              initial={{ y: index === 0 ? 0 : '100%' }}
+              animate={{ 
+                y: `${(index - currentIndex) * 100}%`,
+                scale: index === currentIndex ? 1 : 0.95,
+              }}
+              transition={{
+                type: 'spring',
+                stiffness: 300,
+                damping: 30
+              }}
+              drag="y"
+              dragConstraints={{
+                top: 0,
+                bottom: 0,
+              }}
+              dragElastic={0.2}
+              onDragEnd={(_, info) => {
+                const swipe = info.offset.y
+                const velocity = info.velocity.y
 
-                {/* GitHub 정보 */}
-                <div className="flex items-center gap-3 mb-6 text-sm text-gray-500">
-                  <Link to={recommendedUsers[currentIndex].githubUrl}>
+                if (swipe < -50 || velocity < -500) {
+                  if (currentIndex < recommendedUsers.length - 1) {
+                    setCurrentIndex(currentIndex + 1)
+                  }
+                } else if (swipe > 50 || velocity > 500) {
+                  if (currentIndex > 0) {
+                    setCurrentIndex(currentIndex - 1)
+                  }
+                }
+              }}
+              className="card touch-none"
+            >
+              <div className="h-full p-6 bg-white rounded-lg shadow-sm mx-4">
+                <div className="h-full flex flex-col">
+                  <div className="mb-6">
+                    <h2 className="text-xl font-bold mb-2">{user.name}</h2>
+                    <p className="text-gray-600">{user.description}</p>
+                  </div>
+
+                  <div className="flex items-center gap-3 mb-6 text-sm text-gray-500">
+                    <Link to={user.githubUrl}>
+                      <span className="flex items-center gap-1">
+                        <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                        </svg>
+                        my-github 외 {user.linkCount}개
+                      </span>
+                    </Link>
                     <span className="flex items-center gap-1">
                       <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
                       </svg>
-                      {recommendedUsers[currentIndex].repoCount}개
+                      {user.starCount}
                     </span>
-                  </Link>
-                  <span className="flex items-center gap-1">
-                    <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
-                    </svg>
-                    {recommendedUsers[currentIndex].starCount}
-                  </span>
-                </div>
-
-                {/* 기술 스택 */}
-                <div className="space-y-4 mb-auto">
-                  <div className="flex flex-wrap gap-2">
-                    {recommendedUsers[currentIndex].techStack.map((tech) => (
-                      <TechBadge key={tech.tech} count={tech.count} tech={tech.tech} />
-                    ))}
                   </div>
 
-                  <div className="flex flex-wrap gap-2">
-                    {recommendedUsers[currentIndex].skills.map((skill) => (
-                      <SkillBadge key={skill} skill={skill} />
-                    ))}
+                  <div className="space-y-4 mb-auto">
+                    <div className="flex flex-wrap gap-2">
+                      {user.techStack.map((tech) => (
+                        <TechBadge key={tech.tech} count={tech.count} tech={tech.tech} />
+                      ))}
+                    </div>
+
+                    <div className="flex flex-wrap gap-2">
+                      {user.skills.map((skill) => (
+                        <SkillBadge key={skill} skill={skill} />
+                      ))}
+                    </div>
+
+                    <div className="flex flex-wrap gap-2">
+                      {user.roles.map((role) => (
+                        <SkillBadge key={role} skill={role} />
+                      ))}
+                    </div>
                   </div>
 
-                  <div className="flex flex-wrap gap-2">
-                    {recommendedUsers[currentIndex].roles.map((role) => (
-                      <SkillBadge key={role} skill={role} />
+                  <div className="flex flex-wrap gap-2 pt-4 border-t">
+                    {user.preferences.map((pref) => (
+                      <PreferenceBadge key={pref} preference={pref} />
                     ))}
                   </div>
-                </div>
-
-                {/* 선호사항 */}
-                <div className="flex flex-wrap gap-2 pt-4 border-t">
-                  {recommendedUsers[currentIndex].preferences.map((pref) => (
-                    <PreferenceBadge key={pref} preference={pref} />
-                  ))}
                 </div>
               </div>
-            </div>
-          </motion.div>
-        </AnimatePresence>
-
-        {/* 페이지네이션 */}
-        <div className="absolute bottom-4 left-0 right-0 flex justify-center gap-2">
-          {recommendedUsers.map((_, index) => (
-            <div
-              key={index}
-              className={`w-2 h-2 rounded-full ${
-                index === currentIndex ? 'bg-blue-500' : 'bg-gray-300'
-              }`}
-            />
+            </motion.div>
           ))}
         </div>
       </div>
