@@ -160,8 +160,8 @@ export const RecommendedProjectsPage = () => {
         <div className="fixed top-0 left-0 right-0 z-10 bg-white">
           <h1 className="text-2xl font-bold p-4 border-b">추천 프로젝트</h1>
         </div>
-        <div className="absolute inset-0 top-[60px] pt-4 pb-24 overflow-y-auto">
-          <div className="absolute inset-0">
+        <div className="absolute inset-0 top-[60px] pt-4 pb-24">
+          <div className="absolute inset-0 overflow-hidden">
             {recommendedUsers.map((user, index) => (
               <motion.div
                 key={index}
@@ -283,7 +283,7 @@ export const RecommendedProjectsPage = () => {
 
                 <div className="w-full h-full p-6 bg-white rounded-lg shadow-sm mx-4">
                   <motion.div 
-                    className="h-full flex flex-col overflow-y-auto"
+                    className="h-full flex flex-col"
                     drag="x"
                     dragDirectionLock
                     dragConstraints={{ left: 0, right: 100 }}
@@ -298,7 +298,7 @@ export const RecommendedProjectsPage = () => {
                       <h2 className="text-xl font-bold">{user.name} 상세 프로필</h2>
                     </div>
 
-                    <div className="space-y-6">
+                    <div className="space-y-6 overflow-y-auto flex-1">
                       <div>
                         <h3 className="font-medium mb-2">홀길동</h3>
                         <p className="text-gray-600">010-9076-3143</p>
