@@ -320,7 +320,7 @@ export const RecommendedProjectsPage = () => {
                       </div>
 
                       <div>
-                        <h3 className="font-medium mb-2">네이버</h3>
+                        <h3 className="font-medium mb-2">URL</h3>
                         <div className="grid grid-cols-2 gap-4">
                           <Link to="#" className="text-blue-500 hover:underline">네이버</Link>
                           <Link to="#" className="text-blue-500 hover:underline">네이버</Link>
