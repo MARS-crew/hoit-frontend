@@ -93,21 +93,23 @@ export const ProjectListPage = () => {
   ]
 
   return (
-    <div className="p-4">
-      <h1 className="text-2xl font-bold mb-6">내 프로젝트 목록</h1>
-      
-      <div className="mb-6">
-        <h2 className="text-lg font-medium mb-3">Maker</h2>
-        {makerProjects.map(project => (
-          <ProjectCard key={project.id} project={project} />
-        ))}
-      </div>
+    <div className="h-full overflow-y-auto">
+      <div className="p-4">
+        <h1 className="text-2xl font-bold mb-6">내 프로젝트 목록</h1>
+        
+        <div className="mb-6">
+          <h2 className="text-lg font-medium mb-3">Maker</h2>
+          {makerProjects.map(project => (
+            <ProjectCard key={project.id} project={project} />
+          ))}
+        </div>
 
-      <div>
-        <h2 className="text-lg font-medium mb-3">Engineer</h2>
-        {engineerProjects.map(project => (
-          <ProjectCard key={project.id} project={project} />
-        ))}
+        <div>
+          <h2 className="text-lg font-medium mb-3">Engineer</h2>
+          {engineerProjects.map(project => (
+            <ProjectCard key={project.id} project={project} />
+          ))}
+        </div>
       </div>
     </div>
   )
