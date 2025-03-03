@@ -34,7 +34,7 @@ interface SkillBadgeProps {
 }
 
 const SkillBadge = ({ skill }: SkillBadgeProps) => (
-  <span className="px-3 py-1 text-sm bg-gray-50 text-gray-600 rounded-full">
+  <span className="px-3 py-1 text-sm bg-gray-100 text-gray-700 rounded-full">
     {skill}
   </span>
 )
@@ -44,7 +44,7 @@ interface PreferenceBadgeProps {
 }
 
 const PreferenceBadge = ({ preference }: PreferenceBadgeProps) => (
-  <span className="px-4 py-1.5 text-sm bg-gray-100 text-gray-700 rounded-full">
+  <span className="px-3 py-1 text-sm bg-gray-100 text-gray-700 rounded-full">
     {preference}
   </span>
 )
@@ -67,8 +67,8 @@ export const RecommendedProjectsPage = () => {
         { count: 2, tech: 'MySQL' },
         { count: 1, tech: 'React' },
       ],
-      skills: ['학생', '프리랜서'],
-      roles: ['B.E', 'DevOps', 'TechLeader'],
+      roles: ['학생', '프리랜서'],
+      position: ['B.E', 'DevOps', 'TechLeader'],
       preferences: ['새로운 사람들과의 협업', '업무 자동화', '재활용 가능한 코드'],
       description: '사용자 경험을 중요시하면서 백엔드 개발도 하는 나 김인후 다 덤벼라',
     },
@@ -83,8 +83,8 @@ export const RecommendedProjectsPage = () => {
         { count: 4, tech: 'Django' },
         { count: 3, tech: 'Vue' },
       ],
-      skills: ['현직자', '스타트업'],
-      roles: ['F.E', 'PM', 'Designer'],
+      roles: ['현직자', '스타트업'],
+      position: ['F.E', 'PM', 'Designer'],
       preferences: ['한 페이지가 될 수 있게', 'DAY6', '집 일찍 가는 방법'],
       description: '아르다운 청춘의 한장 함께 써내려 가자 너와의 추억들로 가득 채울래 컴온!',
     },
@@ -132,19 +132,19 @@ export const RecommendedProjectsPage = () => {
 
               {/* 스킬 */}
               <div className="flex gap-2 mb-4">
-                {user.skills.map((skill) => (
-                  <SkillBadge key={skill} skill={skill} />
-                ))}
-              </div>
-
-              {/* 역할 */}
-              <div className="flex gap-2 mb-4">
                 {user.roles.map((role) => (
                   <SkillBadge key={role} skill={role} />
                 ))}
               </div>
 
-              {/* 선호사항 */}
+              {/* 포지션 */}
+              <div className="flex gap-2 mb-4">
+                {user.position.map((pos) => (
+                  <SkillBadge key={pos} skill={pos} />
+                ))}
+              </div>
+
+              {/* 관심분야 */}
               <div className="flex flex-wrap gap-2">
                 {user.preferences.map((pref) => (
                   <PreferenceBadge key={pref} preference={pref} />
@@ -256,16 +256,16 @@ export const RecommendedProjectsPage = () => {
 
                       <div className="py-5">
                         <div className="flex flex-wrap gap-1.5">
-                          {user.skills.map((skill) => (
-                            <SkillBadge key={skill} skill={skill} />
+                          {user.roles.map((role) => (
+                            <SkillBadge key={role} skill={role} />
                           ))}
                         </div>
                       </div>
 
                       <div className="py-5">
                         <div className="flex flex-wrap gap-1.5">
-                          {user.roles.map((role) => (
-                            <SkillBadge key={role} skill={role} />
+                          {user.position.map((pos) => (
+                            <SkillBadge key={pos} skill={pos} />
                           ))}
                         </div>
                       </div>
@@ -421,7 +421,7 @@ export const RecommendedProjectsPage = () => {
                 </div>
 
                 <div>
-                  <h3 className="font-medium mb-2">네이버</h3>
+                  <h3 className="font-medium mb-2">URL</h3>
                   <div className="grid grid-cols-2 gap-4">
                     <Link to="#" className="text-blue-500 hover:underline">네이버</Link>
                     <Link to="#" className="text-blue-500 hover:underline">네이버</Link>
@@ -434,7 +434,7 @@ export const RecommendedProjectsPage = () => {
                   <h3 className="font-medium mb-2">경력</h3>
                   <div className="space-y-2">
                     <p className="text-gray-600">동양 2024.01 ~ 2024.12</p>
-                    <p className="text-gray-600">마스터즌 2025.01 ~ 재직중</p>
+                    <p className="text-gray-600">마스외전 2025.01 ~ 재직중</p>
                   </div>
                 </div>
 
