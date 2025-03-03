@@ -27,29 +27,31 @@ const ProjectCard = ({ project }: ProjectCardProps) => {
   }
 
   return (
-    <div className="p-5 bg-white rounded-[20px] border border-gray-200 mb-4 relative">
-      {project.badge && (
-        <div className="absolute right-5 top-5">
-          <span className={`px-3 py-1 text-sm rounded-full ${
-            project.badge === '수락' ? 'bg-green-400 text-white' : 'bg-gray-100'
-          }`}>
-            {project.badge}
+    <Link to={`/projects/${project.id}`} className="block">
+      <div className="p-5 bg-white rounded-[20px] border border-gray-200 mb-4 relative hover:shadow-md transition-shadow">
+        {project.badge && (
+          <div className="absolute right-5 top-5">
+            <span className={`px-3 py-1 text-sm rounded-full ${
+              project.badge === '수락' ? 'bg-green-400 text-white' : 'bg-gray-100'
+            }`}>
+              {project.badge}
+            </span>
+          </div>
+        )}
+        
+        <div className="space-y-2 mb-4">
+          <h3 className="text-lg font-medium">{project.title}</h3>
+          <p className="text-gray-600 text-sm whitespace-pre-line">{project.description}</p>
+        </div>
+        
+        <div className="flex justify-between items-center">
+          <span className="text-sm text-gray-500">{project.period}</span>
+          <span className={`px-3 py-1 text-sm rounded-full ${getStatusStyle(project.status)}`}>
+            {project.status}
           </span>
         </div>
-      )}
-      
-      <div className="space-y-2 mb-4">
-        <h3 className="text-lg font-medium">{project.title}</h3>
-        <p className="text-gray-600 text-sm whitespace-pre-line">{project.description}</p>
       </div>
-      
-      <div className="flex justify-between items-center">
-        <span className="text-sm text-gray-500">{project.period}</span>
-        <span className={`px-3 py-1 text-sm rounded-full ${getStatusStyle(project.status)}`}>
-          {project.status}
-        </span>
-      </div>
-    </div>
+    </Link>
   )
 }
 

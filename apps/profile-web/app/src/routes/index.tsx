@@ -5,6 +5,7 @@ import { LoginPage } from '@/pages/auth/LoginPage'
 import { NotFoundPage } from '@/pages/error/NotFoundPage'
 import { ErrorPage } from '@/pages/error/ErrorPage'
 import { ProjectListPage } from '@/pages/ProjectListPage'
+import { ProjectDetailPage } from '@/pages/ProjectDetailPage'
 import { RecommendedProjectsPage } from '@/pages/RecommendedProjectsPage'
 import { ChatRoomListPage } from '@/pages/ChatRoomListPage'
 import { SearchPage } from '@/pages/SearchPage'
@@ -33,6 +34,14 @@ export const router = createBrowserRouter([
         element: (
           <ProtectedRoute>
             <ProjectListPage />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: 'projects/:id',
+        element: (
+          <ProtectedRoute>
+            <ProjectDetailPage />
           </ProtectedRoute>
         ),
       },
