@@ -4,6 +4,24 @@ import { Link } from 'react-router-dom'
 
 type TabType = '상세' | '현황' | '추천'
 
+const TechBadge = ({ count, tech }: { count: number; tech: string }) => (
+  <span className="px-2 py-1 text-sm bg-gray-100 rounded-full">
+    {tech} ({count})
+  </span>
+)
+
+const SkillBadge = ({ skill }: { skill: string }) => (
+  <span className="px-2 py-1 text-sm bg-gray-100 rounded-full">
+    {skill}
+  </span>
+)
+
+const PreferenceBadge = ({ preference }: { preference: string }) => (
+  <span className="px-2 py-1 text-sm bg-gray-100 rounded-full text-gray-600">
+    {preference}
+  </span>
+)
+
 export const ProjectDetailPage = () => {
   const [activeTab, setActiveTab] = useState<TabType>('현황')
   const [showDetail, setShowDetail] = useState(false)
@@ -113,9 +131,9 @@ export const ProjectDetailPage = () => {
                 className="touch-none"
               >
                 {/* 간단 프로필 */}
-                <div className="w-full h-full">
+                <div className="w-full h-full p-4">
                   <motion.div 
-                    className="h-full flex flex-col p-4"
+                    className="h-full flex flex-col p-6 bg-white rounded-lg shadow-sm border"
                     drag="x"
                     dragDirectionLock
                     dragConstraints={{ left: -100, right: 0 }}
@@ -126,46 +144,54 @@ export const ProjectDetailPage = () => {
                       }
                     }}
                   >
-                    <div className="mb-3">
-                      <h2 className="text-xl font-bold mb-1">{user.name}</h2>
-                      <p className="text-gray-600 text-sm">{user.description}</p>
-                    </div>
-
-                    <div className="flex items-center gap-3 mb-3 text-sm text-gray-500">
-                      <Link to={user.githubUrl}>
-                        <span className="flex items-center gap-1">
-                          my-github 외 {user.linkCount}개
-                        </span>
+                    {/* 설명 */}
+                    <p className="text-gray-700 mb-4">{user.description}</p>
+                    
+                    {/* 프로필 정보 */}
+                    <div className="flex items-center gap-2 mb-4 pb-4 border-b">
+                      <span className="font-medium">{user.name}</span>
+                      <Link to={user.githubUrl} className="text-gray-500 hover:text-gray-700">
+                        my-github
                       </Link>
-                      <span className="flex items-center gap-1">
+                      <span className="text-gray-500">외 {user.linkCount}개</span>
+                      <span className="flex items-center gap-1 text-gray-500">
                         {user.starCount}
                       </span>
                     </div>
 
-                    <div className="flex gap-2 mb-4">
+                    {/* 기술 스택 */}
+                    <div className="flex gap-2 mb-4 pb-4 border-b">
+                      {user.techStack.map((tech) => (
+                        <TechBadge key={tech.tech} count={tech.count} tech={tech.tech} />
+                      ))}
+                    </div>
+
+                    {/* 스킬 */}
+                    <div className="flex gap-2 mb-4 pb-4 border-b">
                       {user.roles.map((role) => (
-                        <span key={role} className="px-2 py-1 text-sm bg-gray-100 rounded">{role}</span>
+                        <SkillBadge key={role} skill={role} />
                       ))}
                     </div>
 
-                    <div className="flex gap-2 mb-4">
+                    <div className="flex gap-2 mb-4 pb-4 border-b">
                       {user.position.map((pos) => (
-                        <span key={pos} className="px-2 py-1 text-sm bg-gray-100 rounded">{pos}</span>
+                        <SkillBadge key={pos} skill={pos} />
                       ))}
                     </div>
 
+                    {/* 관심분야 */}
                     <div className="flex flex-wrap gap-2">
                       {user.preferences.map((pref) => (
-                        <span key={pref} className="px-2 py-1 text-sm bg-gray-100 rounded">{pref}</span>
+                        <PreferenceBadge key={pref} preference={pref} />
                       ))}
                     </div>
                   </motion.div>
                 </div>
 
                 {/* 상세 프로필 */}
-                <div className="w-full h-full">
+                <div className="w-full h-full p-4">
                   <motion.div 
-                    className="h-full flex flex-col p-4"
+                    className="h-full flex flex-col p-6 bg-white rounded-lg shadow-sm border"
                     drag="x"
                     dragDirectionLock
                     dragConstraints={{ left: 0, right: 100 }}
