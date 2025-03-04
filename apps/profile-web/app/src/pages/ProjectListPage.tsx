@@ -58,14 +58,14 @@ const ProjectCard = ({ project }: ProjectCardProps) => {
 export const ProjectListPage = () => {
   const makerProjects: Project[] = [
     {
-      id: '1',
+      id: 'maker-1',
       title: 'Ver6',
       period: '2025.01 ~ 2025.02',
       status: 'D-20',
       description: '프로젝트 관련한 설명입니다. 프로젝트 관련한 설명...',
     },
     {
-      id: '2',
+      id: 'maker-2',
       title: '수면 측정',
       period: '2024.01 ~ 2026.02',
       status: '모집 완료',
@@ -75,7 +75,7 @@ export const ProjectListPage = () => {
 
   const engineerProjects: Project[] = [
     {
-      id: '3',
+      id: 'eng-3',
       title: 'SNS수정',
       period: '2024.05 ~ 2024.12',
       status: 'D-Day',
@@ -83,7 +83,7 @@ export const ProjectListPage = () => {
       badge: '대기'
     },
     {
-      id: '4',
+      id: 'eng-4',
       title: 'Ver6',
       period: '2025.01 ~ 2025.02',
       status: '모집 완료',

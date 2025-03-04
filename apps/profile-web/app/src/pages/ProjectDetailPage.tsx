@@ -1,8 +1,9 @@
 import { useState } from 'react'
 import { motion } from 'framer-motion'
-import { Link } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
 
 type TabType = '상세' | '현황' | '추천'
+type ProjectType = 'engineer' | 'maker'
 
 const TechBadge = ({ count, tech }: { count: number; tech: string }) => (
   <span className="px-2 py-1 text-sm bg-gray-100 rounded-full">
@@ -23,11 +24,13 @@ const PreferenceBadge = ({ preference }: { preference: string }) => (
 )
 
 export const ProjectDetailPage = () => {
-  const [activeTab, setActiveTab] = useState<TabType>('현황')
+  const { id } = useParams<{ id: string }>()
+  const isEngineerProject = id?.startsWith('eng-')
+  const [activeTab, setActiveTab] = useState<TabType>(isEngineerProject ? '상세' : '현황')
   const [showDetail, setShowDetail] = useState(false)
   const [currentIndex, setCurrentIndex] = useState(0)
-  const tabs: TabType[] = ['상세', '현황', '추천']
 
+  const tabs: TabType[] = isEngineerProject ? ['상세'] : ['상세', '현황', '추천']
 
   const recommendedUsers = [
     {
@@ -299,7 +302,7 @@ export const ProjectDetailPage = () => {
             className={`flex-1 py-4 text-center font-medium relative ${
               activeTab === tab ? 'text-indigo-600' : 'text-gray-500'
             }`}
-            onClick={() => setActiveTab(tab)}
+            onClick={() => setActiveTab(tab as TabType)}
           >
             {tab}
             {activeTab === tab && (
