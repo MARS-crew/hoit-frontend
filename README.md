@@ -10,6 +10,38 @@
 - `wbs-web`: WBS 관리 웹
 - `matching-api`: 매칭 API
 
+## 디렉토리 구조
+
+```
+apps/profile-web/
+├── public/           # 정적 파일
+├── src/
+│   ├── components/  # 재사용 가능한 컴포넌트
+│   ├── constants/   # 상수 값 정의
+│   ├── hooks/       # 커스텀 훅
+│   ├── pages/       # 페이지 컴포넌트
+│   ├── routes/      # 라우트 설정
+│   ├── services/    # API 서비스
+│   ├── states/      # 상태 관리
+│   ├── styles/      # 글로벌 스타일
+│   ├── theme/       # 테마 설정
+│   ├── types/       # 타입 정의
+│   ├── utils/       # 유틸리티 함수
+│   ├── App.tsx      # 앱 진입점
+│   ├── main.tsx     # 메인 렌더링
+│   ├── index.css    # 글로벌 스타일
+│   └── vite-env.d.ts
+├── .env
+├── .eslintrc.json
+├── .gitignore
+├── index.html
+├── package.json
+├── postcss.config.js
+├── tailwind.config.js
+├── tsconfig.json
+└── vite.config.ts
+```
+
 ## 시작하기
 
 ### 필수 요구사항
