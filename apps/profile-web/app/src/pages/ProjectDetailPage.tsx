@@ -32,6 +32,15 @@ export const ProjectDetailPage = () => {
 
   const tabs: TabType[] = isEngineerProject ? ['상세'] : ['상세', '현황', '추천']
 
+  const handleTabChange = (direction: 'left' | 'right') => {
+    const currentIndex = tabs.indexOf(activeTab)
+    if (direction === 'left' && currentIndex < tabs.length - 1) {
+      setActiveTab(tabs[currentIndex + 1])
+    } else if (direction === 'right' && currentIndex > 0) {
+      setActiveTab(tabs[currentIndex - 1])
+    }
+  }
+
   const recommendedUsers = [
     {
       id: 'piano-man',
@@ -321,6 +330,16 @@ export const ProjectDetailPage = () => {
         animate={{ opacity: 1, x: 0 }}
         transition={{ duration: 0.2 }}
         className="flex-1 relative"
+        drag="x"
+        dragConstraints={{ left: 0, right: 0 }}
+        dragElastic={0.2}
+        onDragEnd={(_, info) => {
+          if (info.offset.x < -50) {
+            handleTabChange('left')
+          } else if (info.offset.x > 50) {
+            handleTabChange('right')
+          }
+        }}
       >
         {renderTabContent()}
       </motion.div>
