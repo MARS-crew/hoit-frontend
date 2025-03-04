@@ -67,13 +67,13 @@ export const ProjectDetailPage = () => {
     switch (activeTab) {
       case '상세':
         return (
-          <div className="w-full px-4">
+          <div className="w-full px-4 pt-4">
             <h2 className="text-lg font-semibold">프로젝트 상세</h2>
           </div>
         )
       case '현황':
         return (
-          <div className="w-full px-4">
+          <div className="w-full px-4 pt-4">
             <h2 className="text-lg font-semibold">프로젝트 현황</h2>
           </div>
         )
