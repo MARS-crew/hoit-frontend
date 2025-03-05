@@ -111,15 +111,9 @@ export const RecommendedProjectsPage = () => {
               {/* 프로필 정보 */}
               <div className="flex items-center gap-2 mb-4">
                 <span className="font-medium">{user.name}</span>
-                <Link to={user.githubUrl} className="text-gray-500 hover:text-gray-700">
-                  <svg className="w-4 h-4 inline" fill="currentColor" viewBox="0 0 24 24">
-                  </svg>
-                </Link>
+
                 <span className="text-gray-500">my-github 외 {user.linkCount}개</span>
                 <span className="flex items-center gap-1 text-gray-500">
-                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" />
-                  </svg>
                   {user.starCount}
                 </span>
               </div>
@@ -230,11 +224,13 @@ export const RecommendedProjectsPage = () => {
                             <span className="text-sm">{user.linkCount}</span>
                           </div>
                           <div className="flex items-center gap-1">
-
                             <span className="text-sm">{user.starCount}</span>
                           </div>
                         </div>
                       </div>
+
+                      {/* 설명 추가 */}
+                      <p className="text-gray-700 mb-4">{user.description}</p>
 
                       <div className="flex-1 divide-y divide-gray-100">
                         <div className="py-5">
@@ -390,9 +386,6 @@ export const RecommendedProjectsPage = () => {
                   }}
                   className="text-gray-500 hover:text-gray-700"
                 >
-                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                  </svg>
                 </button>
               </div>
 

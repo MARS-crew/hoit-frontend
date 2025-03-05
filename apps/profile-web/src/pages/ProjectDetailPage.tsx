@@ -56,9 +56,7 @@ export const ProjectDetailPage = () => {
       roles: ['학생', '프리랜서'],
       position: ['B.E', 'DevOps', 'TechLeader'],
       preferences: ['새로운 사람들과의 협업', '업무 자동화', '재활용 가능한 코드'],
-      sendRequest: '보낸 요청',
-      recieveRequest: '받은 요청',
-      participantsList: '프로젝트 참여자 목록',
+      description: '사용자 경험을 중요시하면서 백엔드 개발도 하는 나 김인후 다 덤벼라',
     },
     {
       id: 'hyochan-man',
