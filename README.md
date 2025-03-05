@@ -59,9 +59,14 @@ pnpm install
 ### 개발 서버 실행
 
 ```bash
-# profile-web 실행
+# profile-web 디렉토리로 이동
+cd apps/profile-web
+
+# 개발 서버 실행
 pnpm dev
-# 또는
+
+```bash
+# profile-web 실행
 pnpm --filter profile-web dev
 ```
 
