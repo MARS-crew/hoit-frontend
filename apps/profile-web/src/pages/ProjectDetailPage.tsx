@@ -143,11 +143,13 @@ export const ProjectDetailPage = () => {
                     transition={{ type: 'spring', stiffness: 300, damping: 30 }}
                     drag="x"
                     dragDirectionLock
-                    dragConstraints={{ left: 0, right: 0 }}
+                    dragConstraints={{ left: -100, right: 100 }}
                     dragElastic={0.2}
                     onDragEnd={(_, info) => {
                       if (info.offset.x < -50) {
                         setShowDetail(true);
+                      } else if (info.offset.x > 50) {
+                        setActiveTab('현황');
                       }
                     }}
                   >
