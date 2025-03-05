@@ -117,7 +117,8 @@ export const RecommendedProjectsPage = () => {
                 </Link>
                 <span className="text-gray-500">my-github 외 {user.linkCount}개</span>
                 <span className="flex items-center gap-1 text-gray-500">
-                  <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" />
                   </svg>
                   {user.starCount}
                 </span>
@@ -164,209 +165,205 @@ export const RecommendedProjectsPage = () => {
           <div className="absolute inset-0 overflow-hidden">
             {recommendedUsers.map((user, index) => (
               <motion.div
-                key={index}
+                key={user.id}
                 style={{
                   position: 'absolute',
-                  width: '200%',
-                  height: '100%',
-                  display: 'flex',
+                  width: '100%',
+                  height: '100%'
                 }}
                 initial={{ y: index === 0 ? 0 : '100%' }}
                 animate={{ 
                   y: `${(index - currentIndex) * 100}%`,
-                  x: showDetail ? '-50%' : '0%',
                   scale: index === currentIndex ? 1 : 0.95,
                 }}
                 transition={{
                   type: 'spring',
                   stiffness: 300,
-                  damping: 30,
-                  x: {
-                    type: 'tween',
-                    duration: 0.3,
-                    ease: 'easeInOut'
-                  }
+                  damping: 30
                 }}
-                drag={showDetail ? false : "y"}
+                drag="y"
                 dragDirectionLock
                 dragConstraints={{
                   top: 0,
-                  bottom: 0,
+                  bottom: 0
                 }}
                 dragElastic={0.2}
                 onDragEnd={(_, info) => {
-                  const swipe = info.offset.y
-                  const velocity = info.velocity.y
+                  const swipe = info.offset.y;
+                  const velocity = info.velocity.y;
 
                   if (swipe < -50 || velocity < -500) {
                     if (currentIndex < recommendedUsers.length - 1) {
-                      setCurrentIndex(currentIndex + 1)
-                      setShowDetail(false)
+                      setCurrentIndex(currentIndex + 1);
+                      setShowDetail(false);
                     }
                   } else if (swipe > 50 || velocity > 500) {
                     if (currentIndex > 0) {
-                      setCurrentIndex(currentIndex - 1)
-                      setShowDetail(false)
+                      setCurrentIndex(currentIndex - 1);
+                      setShowDetail(false);
                     }
                   }
                 }}
-                className="card touch-none"
               >
-                <div className="w-full h-full p-6 bg-white rounded-lg shadow-sm mx-4">
-                  <motion.div 
-                    className="h-full flex flex-col"
+                <div className="relative h-full bg-white rounded-lg shadow-sm border mx-4">
+                  {/* 간단 프로필 */}
+                  <motion.div
+                    className="h-full"
+                    animate={{ x: showDetail ? '-100%' : 0 }}
+                    transition={{ type: 'spring', stiffness: 300, damping: 30 }}
                     drag="x"
                     dragDirectionLock
-                    dragConstraints={{ left: -100, right: 0 }}
+                    dragConstraints={{ left: 0, right: 0 }}
                     dragElastic={0.2}
                     onDragEnd={(_, info) => {
                       if (info.offset.x < -50) {
-                        setShowDetail(true)
+                        setShowDetail(true);
+                        setSelectedUser(user.id);
                       }
                     }}
                   >
-                    <div className="mb-3">
-                      <h2 className="text-xl font-bold mb-1">{user.name}</h2>
-                      <p className="text-gray-600 text-sm">{user.description}</p>
-                    </div>
+                    <div className="p-6">
+                      <div className="flex items-center justify-between mb-4">
+                        <h3 className="text-lg font-semibold">{user.name}</h3>
+                        <div className="flex items-center gap-4 text-gray-500">
+                          <div className="flex items-center gap-1">
+                            <span className="text-sm">{user.linkCount}</span>
+                          </div>
+                          <div className="flex items-center gap-1">
 
-                    <div className="flex items-center gap-3 mb-3 text-sm text-gray-500">
-                      <Link to={user.githubUrl}>
-                        <span className="flex items-center gap-1">
-                          <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
-                          </svg>
-                          my-github 외 {user.linkCount}개
-                        </span>
-                      </Link>
-                      <span className="flex items-center gap-1">
-                        <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
-                        </svg>
-                        {user.starCount}
-                      </span>
-                    </div>
-
-                    <div className="flex-1 divide-y divide-gray-100">
-                      <div className="py-5">
-                        <div className="flex flex-wrap gap-1.5">
-                          {user.techStack.map((tech) => (
-                            <TechBadge key={tech.tech} count={tech.count} tech={tech.tech} />
-                          ))}
-                        </div>
-                      </div>
-
-                      <div className="py-5">
-                        <div className="flex flex-wrap gap-1.5">
-                          {user.roles.map((role) => (
-                            <SkillBadge key={role} skill={role} />
-                          ))}
-                        </div>
-                      </div>
-
-                      <div className="py-5">
-                        <div className="flex flex-wrap gap-1.5">
-                          {user.position.map((pos) => (
-                            <SkillBadge key={pos} skill={pos} />
-                          ))}
-                        </div>
-                      </div>
-
-                      <div className="py-5">
-                        <div className="flex flex-wrap gap-1.5">
-                          {user.preferences.map((pref) => (
-                            <PreferenceBadge key={pref} preference={pref} />
-                          ))}
-                        </div>
-                      </div>
-                    </div>
-                  </motion.div>
-                </div>
-
-                <div className="w-full h-full p-6 bg-white rounded-lg shadow-sm mx-4">
-                  <motion.div 
-                    className="h-full flex flex-col"
-                    drag="x"
-                    dragDirectionLock
-                    dragConstraints={{ left: 0, right: 100 }}
-                    dragElastic={0.2}
-                    onDragEnd={(_, info) => {
-                      if (info.offset.x > 50) {
-                        setShowDetail(false)
-                      }
-                    }}
-                  >
-                    <div className="flex items-center gap-2 mb-6 sticky top-0 bg-white z-10 py-2">
-                      <h2 className="text-xl font-bold">{user.name} 상세 프로필</h2>
-                    </div>
-
-                    <div className="space-y-6 overflow-y-auto flex-1 pb-20" style={{ touchAction: 'pan-y' }}>
-                      <div>
-                        <h3 className="font-medium mb-2">홀길동</h3>
-                        <p className="text-gray-600">010-9076-3143</p>
-                        <p className="text-gray-600">2001.01</p>
-                        <div className="flex gap-2 mt-2">
-                          <span className="px-2 py-1 text-sm bg-gray-100 rounded">학생</span>
-                          <span className="px-2 py-1 text-sm bg-gray-100 rounded">직장</span>
-                        </div>
-                      </div>
-
-                      <div>
-                        <h3 className="font-medium mb-2">소개</h3>
-                        <p className="text-gray-600">
-                          안녕 하세요.<br />
-                          신입 웹 개발자 홀길동 입니다.<br />
-                          희망하는 직무는 프론트 엔드, 백 엔드, PM부분 직무<br />
-                          희망하고 공부 하고 있습니다. 잘부탁 드립니다.
-                        </p>
-                      </div>
-
-                      <div>
-                        <h3 className="font-medium mb-2">URL</h3>
-                        <div className="grid grid-cols-2 gap-4">
-                          <Link to="#" className="text-blue-500 hover:underline">네이버</Link>
-                          <Link to="#" className="text-blue-500 hover:underline">네이버</Link>
-                          <Link to="#" className="text-blue-500 hover:underline">네이버</Link>
-                          <Link to="#" className="text-blue-500 hover:underline">네이버</Link>
-                        </div>
-                      </div>
-
-                      <div>
-                        <h3 className="font-medium mb-2">경력</h3>
-                        <div className="space-y-2">
-                          <p className="text-gray-600">동양 2024.01 ~ 2024.12</p>
-                          <p className="text-gray-600">마스외전 2025.01 ~ 재직중</p>
-                        </div>
-                      </div>
-
-                      <div>
-                        <h3 className="font-medium mb-2">수상이력</h3>
-                        <div className="space-y-2">
-                          <p className="text-gray-600">자격증 연계 금상 2024.01</p>
-                        </div>
-                      </div>
-
-                      <div>
-                        <h3 className="font-medium mb-2">자격증</h3>
-                        <div className="space-y-2">
-                          <div>
-                            <p className="text-gray-600">정보처리기사 2024.01</p>
-                            <p className="text-gray-600">DB 2024.12</p>
+                            <span className="text-sm">{user.starCount}</span>
                           </div>
                         </div>
                       </div>
 
-                      <div>
-                        <h3 className="font-medium mb-2">활동 이력</h3>
-                        <div className="space-y-2">
-                          <p className="text-gray-600">자격증 연계 2024.01 ~ 2024.12</p>
+                      <div className="flex-1 divide-y divide-gray-100">
+                        <div className="py-5">
+                          <div className="flex flex-wrap gap-1.5">
+                            {user.techStack.map((tech) => (
+                              <TechBadge key={tech.tech} count={tech.count} tech={tech.tech} />
+                            ))}
+                          </div>
+                        </div>
+
+                        <div className="py-5">
+                          <div className="flex flex-wrap gap-1.5">
+                            {user.roles.map((role) => (
+                              <SkillBadge key={role} skill={role} />
+                            ))}
+                          </div>
+                        </div>
+
+                        <div className="py-5">
+                          <div className="flex flex-wrap gap-1.5">
+                            {user.position.map((pos) => (
+                              <SkillBadge key={pos} skill={pos} />
+                            ))}
+                          </div>
+                        </div>
+
+                        <div className="py-5">
+                          <div className="flex flex-wrap gap-1.5">
+                            {user.preferences.map((pref) => (
+                              <PreferenceBadge key={pref} preference={pref} />
+                            ))}
+                          </div>
                         </div>
                       </div>
+                    </div>
+                  </motion.div>
 
-                      <div>
-                        <h3 className="font-medium mb-2">백 엔드, 개발 PL, 프로젝트 PM</h3>
-                        <p className="text-gray-600">
-                          프로젝트의 전반적인 이해도가 높으며, 팀원들과의 원활한 소통으로 
-                          프로젝트를 성공적으로 이끌어낸 경험이 있습니다.
-                        </p>
+                  {/* 상세 프로필 */}
+                  <motion.div
+                    className="absolute inset-0 bg-white"
+                    initial={{ x: '100%' }}
+                    animate={{ x: showDetail && selectedUser === user.id ? 0 : '100%' }}
+                    transition={{ type: 'spring', stiffness: 300, damping: 30 }}
+                    drag="x"
+                    dragDirectionLock
+                    dragConstraints={{ left: 0, right: 0 }}
+                    dragElastic={0.2}
+                    onDragEnd={(_, info) => {
+                      if (info.offset.x > 50) {
+                        setShowDetail(false);
+                        setSelectedUser(null);
+                      }
+                    }}
+                  >
+                    <div className="p-6">
+                      <div className="flex items-center gap-2 mb-6">
+                        <h2 className="text-xl font-bold">{user.name} 상세 프로필</h2>
+                      </div>
+
+                      <div className="space-y-6">
+                        <div>
+                          <h3 className="font-medium mb-2">홀길동</h3>
+                          <p className="text-gray-600">010-9076-3143</p>
+                          <p className="text-gray-600">2001.01</p>
+                          <div className="flex gap-2 mt-2">
+                            <span className="px-2 py-1 text-sm bg-gray-100 rounded">학생</span>
+                            <span className="px-2 py-1 text-sm bg-gray-100 rounded">직장</span>
+                          </div>
+                        </div>
+
+                        <div>
+                          <h3 className="font-medium mb-2">소개</h3>
+                          <p className="text-gray-600">
+                            안녕 하세요.<br />
+                            신입 웹 개발자 홀길동 입니다.<br />
+                            희망하는 직무는 프론트 엔드, 백 엔드, PM부분 직무<br />
+                            희망하고 공부 하고 있습니다. 잘부탁 드립니다.
+                          </p>
+                        </div>
+
+                        <div>
+                          <h3 className="font-medium mb-2">URL</h3>
+                          <div className="grid grid-cols-2 gap-4">
+                            <Link to="#" className="text-blue-500 hover:underline">네이버</Link>
+                            <Link to="#" className="text-blue-500 hover:underline">네이버</Link>
+                            <Link to="#" className="text-blue-500 hover:underline">네이버</Link>
+                            <Link to="#" className="text-blue-500 hover:underline">네이버</Link>
+                          </div>
+                        </div>
+
+                        <div>
+                          <h3 className="font-medium mb-2">경력</h3>
+                          <div className="space-y-2">
+                            <p className="text-gray-600">동양 2024.01 ~ 2024.12</p>
+                            <p className="text-gray-600">마스외전 2025.01 ~ 재직중</p>
+                          </div>
+                        </div>
+
+                        <div>
+                          <h3 className="font-medium mb-2">수상이력</h3>
+                          <div className="space-y-2">
+                            <p className="text-gray-600">자격증 연계 금상 2024.01</p>
+                          </div>
+                        </div>
+
+                        <div>
+                          <h3 className="font-medium mb-2">자격증</h3>
+                          <div className="space-y-2">
+                            <div>
+                              <p className="text-gray-600">정보처리기사 2024.01</p>
+                              <p className="text-gray-600">DB 2024.12</p>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div>
+                          <h3 className="font-medium mb-2">활동 이력</h3>
+                          <div className="space-y-2">
+                            <p className="text-gray-600">자격증 연계 2024.01 ~ 2024.12</p>
+                          </div>
+                        </div>
+
+                        <div>
+                          <h3 className="font-medium mb-2">백 엔드, 개발 PL, 프로젝트 PM</h3>
+                          <p className="text-gray-600">
+                            프로젝트의 전반적인 이해도가 높으며, 팀원들과의 원활한 소통으로 
+                            프로젝트를 성공적으로 이끌어낸 경험이 있습니다.
+                          </p>
+                        </div>
                       </div>
                     </div>
                   </motion.div>
