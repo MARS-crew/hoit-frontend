@@ -3,7 +3,6 @@ import { motion } from 'framer-motion'
 import { Link, useParams } from 'react-router-dom'
 
 type TabType = '상세' | '현황' | '추천'
-type ProjectType = 'engineer' | 'maker'
 
 const TechBadge = ({ count, tech }: { count: number; tech: string }) => (
   <span className="px-2 py-1 text-sm bg-gray-100 rounded-full">
