@@ -73,11 +73,11 @@ pnpm --filter profile-web dev
 ### 빌드
 
 ```bash
-# 전체 빌드
-pnpm build
+# profile-web 디렉토리로 이동
+cd apps/profile-web
 
-# profile-web만 빌드
-pnpm --filter profile-web build
+# 빌드
+pnpm build
 ```
 
 ### 린트
