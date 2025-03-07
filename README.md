@@ -54,6 +54,9 @@ apps/profile-web/
 ```bash
 # 의존성 설치
 pnpm install
+
+# Vite 설치
+pnpm add -D vite @vitejs/plugin-react
 ```
 
 ### 개발 서버 실행
