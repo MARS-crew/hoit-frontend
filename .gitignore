@@ -18,11 +18,3 @@ thumb
 sketch
 
 # End of https://www.toptal.com/developers/gitignore/api/react
-
-# Build output
-dist/
-
-# Environment variables
-.env
-.env.development
-.env.production
