@@ -1,6 +1,10 @@
 {
-  "name": "monorepo",
+  "name": "profile-web",
   "private": true,
+  "engines": {
+    "node": ">=18.0.0",
+    "pnpm": ">=8.0.0"
+  },
   "scripts": {
     "build": "turbo run build",
     "dev": "pnpm --filter profile-web dev",
