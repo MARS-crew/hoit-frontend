@@ -67,10 +67,6 @@ cd apps/profile-web
 
 # 개발 서버 실행
 pnpm dev
-
-```bash
-# profile-web 실행
-pnpm --filter profile-web dev
 ```
 
 ### 빌드
