@@ -1,19 +1,10 @@
 import { TechBadge } from '../atoms/TechBadge';
 import { SkillBadge } from '../atoms/SkillBadge';
 import { PreferenceBadge } from '../atoms/PreferenceBadge';
+import { IUser } from '@/types/user';
 
 interface IUserCardProps {
-  user: {
-    id: string;
-    name: string;
-    description: string;
-    linkCount: number;
-    starCount: number;
-    techStack: Array<{ count: number; tech: string }>;
-    roles: string[];
-    position: string[];
-    preferences: string[];
-  };
+  user: IUser;
   onClick?: () => void;
 }
 

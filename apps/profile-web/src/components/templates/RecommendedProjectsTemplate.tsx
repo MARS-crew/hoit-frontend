@@ -1,6 +1,7 @@
 import { RecommendedProjectsList } from '../organisms/RecommendedProjectsList';
 import { RecommendedProjectsSwiper } from '../organisms/RecommendedProjectsSwiper';
 import { IUser } from '@/types/user';
+import { Z_INDEX } from '@/constants/zIndex';
 
 interface IRecommendedProjectsTemplateProps {
   users: IUser[];
@@ -34,7 +35,7 @@ export const RecommendedProjectsTemplate = ({
 
       {/* 모바일 뷰 */}
       <div className="md:hidden fixed inset-0 bg-white">
-        <div className="fixed top-0 left-0 right-0 z-10 bg-white">
+        <div className={`fixed top-0 left-0 right-0 z-[${Z_INDEX.HEADER}] bg-white`}>
           <h1 className="text-2xl font-bold p-4 border-b">추천 프로젝트</h1>
         </div>
         <div className="absolute inset-0 top-[60px] pt-4 pb-24">
