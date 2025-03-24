@@ -1,5 +1,5 @@
 {
-  "name": "profile-web",
+  "name": "web",
   "private": true,
   "engines": {
     "node": ">=18.0.0",
@@ -7,12 +7,15 @@
   },
   "scripts": {
     "build": "turbo run build",
-    "dev": "pnpm --filter profile-web dev",
+    "dev": "pnpm --filter web dev",
     "lint": "turbo run lint",
     "test": "turbo run test"
   },
   "workspaces": [
     "apps/*",
     "packages/*"
-  ]
+  ],
+  "dependencies": {
+    "recoil-persist": "^5.1.0"
+  }
 }

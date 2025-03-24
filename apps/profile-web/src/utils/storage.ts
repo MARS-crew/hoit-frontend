@@ -1,3 +1,12 @@
+import { recoilPersist } from 'recoil-persist';
+
+const { persistAtom } = recoilPersist({
+  key: 'recoil-persist',
+  storage: typeof window === 'undefined' ? undefined : localStorage,
+});
+
+export { persistAtom };
+
 export const storage = {
   get: (key: string) => {
     const value = localStorage.getItem(key)
