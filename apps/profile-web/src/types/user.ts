@@ -7,6 +7,7 @@ export interface IUser {
   id: string;
   name: string;
   description: string;
+  githubUrl: string;
   linkCount: number;
   starCount: number;
   techStack: ITechStack[];

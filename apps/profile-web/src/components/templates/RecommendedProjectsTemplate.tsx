@@ -23,22 +23,20 @@ export const RecommendedProjectsTemplate = ({
   onUserSelect,
 }: IRecommendedProjectsTemplateProps) => {
   return (
-    <div className="md:space-y-6">
+    <div className="h-[calc(100vh-64px)] flex flex-col">
       {/* PC 뷰 */}
-      <div className="hidden md:block">
-        <h1 className="text-2xl font-bold mb-6">추천 프로젝트</h1>
-        <RecommendedProjectsList 
-          users={users}
-          onUserClick={onUserSelect}
-        />
+      <div className="hidden md:flex md:flex-col md:h-full">
+        <div className="flex-1 overflow-auto p-6">
+          <RecommendedProjectsList 
+            users={users}
+            onUserClick={onUserSelect}
+          />
+        </div>
       </div>
 
       {/* 모바일 뷰 */}
-      <div className="md:hidden fixed inset-0 bg-white">
-        <div className={`fixed top-0 left-0 right-0 z-[${Z_INDEX.HEADER}] bg-white`}>
-          <h1 className="text-2xl font-bold p-4 border-b">추천 프로젝트</h1>
-        </div>
-        <div className="absolute inset-0 top-[60px] pt-4 pb-24">
+      <div className="md:hidden flex flex-col h-full">
+        <div className="flex-1 overflow-hidden">
           <RecommendedProjectsSwiper
             users={users}
             currentIndex={currentIndex}

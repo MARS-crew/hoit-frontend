@@ -1,7 +1,7 @@
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { UserCard } from '../molecules/UserCard';
+import { UserDetailCard } from '../molecules/UserDetailCard';
 import { IUser } from '@/types/user';
-import { MOTION } from '@/constants/motion';
 
 interface IRecommendedProjectsSwiperProps {
   users: IUser[];
@@ -21,8 +21,11 @@ export const RecommendedProjectsSwiper = ({
   onUserSelect,
 }: IRecommendedProjectsSwiperProps) => {
   const handleVerticalSwipe = (swipe: number, velocity: number) => {
-    const isSwipeDown = swipe > MOTION.SWIPE.THRESHOLD || velocity > MOTION.SWIPE.VELOCITY;
-    const isSwipeUp = swipe < -MOTION.SWIPE.THRESHOLD || velocity < -MOTION.SWIPE.VELOCITY;
+    const swipeThreshold = 50;
+    const velocityThreshold = 500;
+    
+    const isSwipeUp = swipe < -swipeThreshold || velocity < -velocityThreshold;
+    const isSwipeDown = swipe > swipeThreshold || velocity > velocityThreshold;
 
     if (isSwipeUp && currentIndex < users.length - 1) {
       onIndexChange(currentIndex + 1);
@@ -33,55 +36,85 @@ export const RecommendedProjectsSwiper = ({
     }
   };
 
-  const handleHorizontalSwipe = (swipe: number, userId: string) => {
-    if (swipe < -MOTION.SWIPE.THRESHOLD) {
+  const handleHorizontalSwipe = (swipe: number, velocity: number) => {
+    const swipeThreshold = 50;
+    const velocityThreshold = 500;
+    
+    const isSwipeLeft = swipe < -swipeThreshold || velocity < -velocityThreshold;
+    const isSwipeRight = swipe > swipeThreshold || velocity > velocityThreshold;
+
+    if (isSwipeLeft && !showDetail) {
       onDetailChange(true);
-      onUserSelect(userId);
+    } else if (isSwipeRight && showDetail) {
+      onDetailChange(false);
     }
   };
 
   return (
-    <div className="absolute inset-0 overflow-hidden">
-      {users.map((user, index) => (
-        <motion.div
-          key={user.id}
-          style={{
-            position: 'absolute',
-            width: '100%',
-            height: '100%'
-          }}
-          initial={{ y: index === 0 ? 0 : '100%' }}
-          animate={{ 
-            y: `${(index - currentIndex) * 100}%`,
-            scale: index === currentIndex ? 1 : 0.95,
-          }}
-          transition={{
-            type: 'spring',
-            ...MOTION.SPRING
-          }}
-          drag="y"
-          dragDirectionLock
-          dragConstraints={{
-            top: 0,
-            bottom: 0
-          }}
-          dragElastic={MOTION.DRAG.elastic}
-          onDragEnd={(_, info) => handleVerticalSwipe(info.offset.y, info.velocity.y)}
-        >
+    <div className="absolute inset-0">
+      <AnimatePresence>
+        {users.map((user, index) => (
           <motion.div
-            className="h-full mx-4"
-            animate={{ x: showDetail ? '-100%' : 0 }}
-            transition={{ type: 'spring', ...MOTION.SPRING }}
-            drag="x"
+            key={user.id}
+            className="absolute inset-0"
+            initial={{ y: index === 0 ? 0 : '100%' }}
+            animate={{ 
+              y: `${(index - currentIndex) * 100}%`,
+              scale: index === currentIndex ? 1 : 0.95,
+            }}
+            exit={{ y: '-100%' }}
+            transition={{
+              type: 'spring',
+              stiffness: 400,
+              damping: 40
+            }}
+            drag={showDetail ? false : "y"}
             dragDirectionLock
-            dragConstraints={{ left: 0, right: 0 }}
-            dragElastic={MOTION.DRAG.elastic}
-            onDragEnd={(_, info) => handleHorizontalSwipe(info.offset.x, user.id)}
+            dragConstraints={{
+              top: 0,
+              bottom: 0
+            }}
+            dragElastic={0.5}
+            onDragEnd={(_, info) => handleVerticalSwipe(info.offset.y, info.velocity.y)}
           >
-            <UserCard user={user} />
+            <motion.div
+              className="absolute inset-0"
+              initial={false}
+              animate={{ x: showDetail ? '-100%' : 0 }}
+              transition={{
+                type: 'spring',
+                stiffness: 400,
+                damping: 40
+              }}
+            >
+              <UserCard
+                user={user}
+                onClick={() => onUserSelect(user.id)}
+              />
+            </motion.div>
+            <motion.div
+              className="absolute inset-0"
+              initial={{ x: '100%' }}
+              animate={{ x: showDetail ? 0 : '100%' }}
+              transition={{
+                type: 'spring',
+                stiffness: 400,
+                damping: 40
+              }}
+              drag="x"
+              dragDirectionLock
+              dragConstraints={{
+                left: 0,
+                right: 0
+              }}
+              dragElastic={0.5}
+              onDragEnd={(_, info) => handleHorizontalSwipe(info.offset.x, info.velocity.x)}
+            >
+              <UserDetailCard user={user} />
+            </motion.div>
           </motion.div>
-        </motion.div>
-      ))}
+        ))}
+      </AnimatePresence>
     </div>
   );
 }; 
