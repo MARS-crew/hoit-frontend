@@ -6,7 +6,7 @@ import { useMutation } from '@tanstack/react-query'
 import { Button } from '@/components/common/Button'
 import { userState, isAuthenticatedState } from '@/states/auth'
 
-interface LoginForm {
+interface ILoginForm {
   id: string
   password: string
 }
@@ -23,10 +23,10 @@ export const LoginPage = () => {
     }
   }, [isAuthenticated, navigate])
 
-  const { register, handleSubmit, formState: { errors } } = useForm<LoginForm>()
+  const { register, handleSubmit, formState: { errors } } = useForm<ILoginForm>()
 
   const loginMutation = useMutation({
-    mutationFn: async (data: LoginForm) => {
+    mutationFn: async (data: ILoginForm) => {
       // 임시 로그인 체크
       if (data.id === 'mars' && data.password === '1595') {
         return {
@@ -49,7 +49,7 @@ export const LoginPage = () => {
     },
   })
 
-  const onSubmit = (data: LoginForm) => {
+  const onSubmit = (data: ILoginForm) => {
     loginMutation.mutate(data)
   }
 

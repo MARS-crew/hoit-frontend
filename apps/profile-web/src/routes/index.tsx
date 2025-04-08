@@ -1,6 +1,6 @@
 import { createBrowserRouter, Navigate } from 'react-router-dom'
 import { Layout } from '@/components/layout/Layout'
-import { ProtectedRoute } from '@/components/auth/ProtectedRoute'
+import { ProtectedRoute } from '@/routes/auth/ProtectedRoute'
 import { LoginPage } from '@/pages/auth/LoginPage'
 import { NotFoundPage } from '@/pages/error/NotFoundPage'
 import { ErrorPage } from '@/pages/error/ErrorPage'
