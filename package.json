@@ -3,7 +3,7 @@
   "private": true,
   "scripts": {
     "build": "turbo run build",
-    "dev": "pnpm --filter profile-web dev",
+    "dev": "pnpm --filter portfolio-web-app dev",
     "lint": "turbo run lint",
     "test": "turbo run test"
   },
