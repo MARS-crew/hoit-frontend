@@ -1,0 +1,19 @@
+{
+  "name": "@wbs/common",
+  "version": "0.0.0",
+  "private": true,
+  "license": "MIT",
+  "main": "./index.tsx",
+  "types": "./index.tsx",
+  "scripts": {
+    "lint": "eslint \"**/*.ts*\"",
+    "type:check": "tsc --noEmit",
+    "generate": "openapi-generator-cli generate -i http://218.145.160.132:8080/api-docs-json -g typescript-axios -o ./openai -c ./openapi.json --skip-validate-spec"
+  },
+  "devDependencies": {
+    "@openapitools/openapi-generator-cli": "^2.15.3"
+  },
+  "dependencies": {
+    "axios": "^1.8.4"
+  }
+}
