@@ -1,4 +1,4 @@
 echo "Deploy to WAS DEV"
 pnpm build && \
-scp -r ./apps/portfolio-web/dist/* mars:/usr/share/nginx/html/app && \
-scp -r ./apps/web-web/dist/* mars:/usr/share/nginx/html/web
+scp -P 26022 -r ./apps/portfolio-web/dist/* mars:/usr/share/nginx/html/app && \
+scp -P 26022 -r ./apps/wbs-web/dist/* mars:/usr/share/nginx/html/web

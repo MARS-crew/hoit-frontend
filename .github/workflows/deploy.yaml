@@ -1,0 +1,43 @@
+name: Deploy Hoit Frontend
+
+on:
+  push:
+    branches:
+      - realRefactor
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: "18"
+
+      - name: Install pnpm
+        run: npm install -g pnpm
+
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Build the frontend
+        run: pnpm build
+
+      - name: Initialize Known Hosts
+        run: |
+          mkdir -p ~/.ssh
+          touch ~/.ssh/known_hosts
+          ssh-keyscan ${{ secrets.HOST }} >> ~/.ssh/known_hosts
+
+      - name: Set Permissions for Private Key
+        run: |
+          echo "${{ secrets.SSH_KEY }}" > $HOME/key.pem
+          chmod 400 $HOME/key.pem
+
+      - name: Copy build files to VM To Production
+        run: |
+          scp -i $HOME/key.pem -P 26022 -r ./apps/portfolio-web/dist/* marssq@${{ secrets.HOST }}:/usr/share/nginx/html/app
+          scp -i $HOME/key.pem -P 26022 -r ./apps/wbs-web/dist/* marssq@${{ secrets.HOST }}:/usr/share/nginx/html/web
