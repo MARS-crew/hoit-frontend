@@ -30,7 +30,6 @@
     "@types/node": "^20.17.19",
     "@types/react": "^18.3.18",
     "@types/react-dom": "^18.3.5",
-    "@types/serviceworker": "^0.0.120",
     "@typescript-eslint/eslint-plugin": "^6.21.0",
     "@typescript-eslint/parser": "^6.21.0",
     "@vitejs/plugin-react": "^4.3.4",
@@ -43,4 +42,4 @@
     "vite": "^4.5.9",
     "vite-plugin-pwa": "^0.21.1"
   }
-} 
+}

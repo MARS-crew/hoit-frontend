@@ -6,7 +6,11 @@ settings:
 
 importers:
 
-  .: {}
+  .:
+    devDependencies:
+      turbo:
+        specifier: ^2.5.2
+        version: 2.5.2
 
   apps/portfolio-web:
     dependencies:
@@ -241,9 +245,6 @@ importers:
       '@types/react-dom':
         specifier: ^18.3.5
         version: 18.3.6(@types/react@18.3.20)
-      '@types/serviceworker':
-        specifier: ^0.0.120
-        version: 0.0.120
       '@typescript-eslint/eslint-plugin':
         specifier: ^6.21.0
         version: 6.21.0(@typescript-eslint/parser@6.21.0(eslint@8.57.1)(typescript@5.8.3))(eslint@8.57.1)(typescript@5.8.3)

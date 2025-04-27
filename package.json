@@ -1,6 +1,7 @@
 {
   "name": "monorepo",
   "private": true,
+  "packageManager": "pnpm@10.4.1",
   "scripts": {
     "build": "turbo run build",
     "dev": "pnpm --filter portfolio-web dev",
@@ -10,5 +11,8 @@
   "workspaces": [
     "apps/*",
     "packages/*"
-  ]
+  ],
+  "devDependencies": {
+    "turbo": "^2.5.2"
+  }
 }
