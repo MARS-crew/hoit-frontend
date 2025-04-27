@@ -30,7 +30,7 @@ jobs:
         run: |
           mkdir -p ~/.ssh
           touch ~/.ssh/known_hosts
-          ssh-keyscan ${{ secrets.HOST }} >> ~/.ssh/known_hosts
+          ssh-keyscan -p 26022 ${{ secrets.HOST }} >> ~/.ssh/known_hosts
 
       - name: Set Permissions for Private Key
         run: |
@@ -39,5 +39,5 @@ jobs:
 
       - name: Copy build files to VM To Production
         run: |
-          scp -i $HOME/key.pem -P 26022 -r ./apps/portfolio-web/dist/* marssq@${{ secrets.HOST }}:/usr/share/nginx/html/app
-          scp -i $HOME/key.pem -P 26022 -r ./apps/wbs-web/dist/* marssq@${{ secrets.HOST }}:/usr/share/nginx/html/web
+          scp -i $HOME/key.pem -p 26022 -r ./apps/portfolio-web/dist/* marssq@${{ secrets.HOST }}:/usr/share/nginx/html/app
+          scp -i $HOME/key.pem -p 26022 -r ./apps/wbs-web/dist/* marssq@${{ secrets.HOST }}:/usr/share/nginx/html/web
