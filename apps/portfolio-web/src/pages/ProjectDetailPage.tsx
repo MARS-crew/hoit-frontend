@@ -138,8 +138,19 @@ export const ProjectDetailPage = () => {
                   {/* 간단 프로필 */}
                   <motion.div
                     className="h-full"
-                    animate={{ x: showDetail ? '-100%' : 0 }}
-                    transition={{ type: 'spring', stiffness: 300, damping: 30 }}
+                    style={{
+                      transformStyle: 'preserve-3d',
+                      perspective: '1000px',
+                    }}
+                    animate={{ 
+                      rotateY: showDetail ? -90 : 0,
+                      x: showDetail ? '-50%' : 0,
+                    }}
+                    transition={{ 
+                      type: 'spring',
+                      stiffness: 300,
+                      damping: 30,
+                    }}
                     drag="x"
                     dragDirectionLock
                     dragConstraints={{ left: -100, right: 100 }}
@@ -201,9 +212,21 @@ export const ProjectDetailPage = () => {
                   {/* 상세 프로필 */}
                   <motion.div
                     className="absolute inset-0 bg-white"
-                    initial={{ x: '100%' }}
-                    animate={{ x: showDetail ? 0 : '100%' }}
-                    transition={{ type: 'spring', stiffness: 300, damping: 30 }}
+                    style={{
+                      transformStyle: 'preserve-3d',
+                      perspective: '1000px',
+                      backfaceVisibility: 'hidden',
+                    }}
+                    initial={{ rotateY: 90 }}
+                    animate={{ 
+                      rotateY: showDetail ? 0 : 90,
+                      x: showDetail ? 0 : '50%',
+                    }}
+                    transition={{ 
+                      type: 'spring',
+                      stiffness: 300,
+                      damping: 30,
+                    }}
                     drag="x"
                     dragDirectionLock
                     dragConstraints={{ left: 0, right: 0 }}
