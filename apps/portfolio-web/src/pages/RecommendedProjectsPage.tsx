@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef, forwardRef } from 'react'
+import HTMLFlipBook from 'react-pageflip'
 
 const useMediaQuery = (query: string) => {
   const [matches, setMatches] = useState(false)
@@ -49,11 +50,22 @@ const PreferenceBadge = ({ preference }: PreferenceBadgeProps) => (
   </span>
 )
 
+const Page = forwardRef<HTMLDivElement, { children: React.ReactNode }>(
+  ({ children }, ref) => (
+    <div className="page relative h-full bg-white" ref={ref}>
+      <div className="page-content h-full">
+        {children}
+      </div>
+    </div>
+  )
+)
+
 export const RecommendedProjectsPage = () => {
   const [currentIndex, setCurrentIndex] = useState(0)
   const [showDetail, setShowDetail] = useState(false)
   const [selectedUser, setSelectedUser] = useState<string | null>(null)
   const isDesktop = useMediaQuery('(min-width: 768px)')
+  const flipBookRef = useRef<any>(null)
 
   const recommendedUsers = [
     {
@@ -89,6 +101,138 @@ export const RecommendedProjectsPage = () => {
       description: '아르다운 청춘의 한장 함께 써내려 가자 너와의 추억들로 가득 채울래 컴온!',
     },
   ]
+
+  const SimpleView = ({ user }: { user: typeof recommendedUsers[0] }) => (
+    <div className="p-6">
+      <div className="flex items-center justify-between mb-4">
+        <h3 className="text-lg font-semibold">{user.name}</h3>
+        <div className="flex items-center gap-4 text-gray-500">
+          <div className="flex items-center gap-1">
+            <span className="text-sm">{user.linkCount}</span>
+          </div>
+          <div className="flex items-center gap-1">
+            <span className="text-sm">{user.starCount}</span>
+          </div>
+        </div>
+      </div>
+
+      <p className="text-gray-700 mb-4">{user.description}</p>
+
+      <div className="flex-1 divide-y divide-gray-100">
+        <div className="py-5">
+          <div className="flex flex-wrap gap-1.5">
+            {user.techStack.map((tech) => (
+              <TechBadge key={tech.tech} count={tech.count} tech={tech.tech} />
+            ))}
+          </div>
+        </div>
+
+        <div className="py-5">
+          <div className="flex flex-wrap gap-1.5">
+            {user.roles.map((role) => (
+              <SkillBadge key={role} skill={role} />
+            ))}
+          </div>
+        </div>
+
+        <div className="py-5">
+          <div className="flex flex-wrap gap-1.5">
+            {user.position.map((pos) => (
+              <SkillBadge key={pos} skill={pos} />
+            ))}
+          </div>
+        </div>
+
+        <div className="py-5">
+          <div className="flex flex-wrap gap-1.5">
+            {user.preferences.map((pref) => (
+              <PreferenceBadge key={pref} preference={pref} />
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  )
+
+  const DetailView = ({ user }: { user: typeof recommendedUsers[0] }) => (
+    <div className="p-6">
+      <div className="flex items-center gap-2 mb-6">
+        <h2 className="text-xl font-bold">{user.name} 상세 프로필</h2>
+      </div>
+
+      <div className="space-y-6">
+        <div>
+          <h3 className="font-medium mb-2">홀길동</h3>
+          <p className="text-gray-600">010-9076-3143</p>
+          <p className="text-gray-600">2001.01</p>
+          <div className="flex gap-2 mt-2">
+            <span className="px-2 py-1 text-sm bg-gray-100 rounded">학생</span>
+            <span className="px-2 py-1 text-sm bg-gray-100 rounded">직장</span>
+          </div>
+        </div>
+
+        <div>
+          <h3 className="font-medium mb-2">소개</h3>
+          <p className="text-gray-600">
+            안녕 하세요.<br />
+            신입 웹 개발자 홀길동 입니다.<br />
+            희망하는 직무는 프론트 엔드, 백 엔드, PM부분 직무<br />
+            희망하고 공부 하고 있습니다. 잘부탁 드립니다.
+          </p>
+        </div>
+
+        <div>
+          <h3 className="font-medium mb-2">URL</h3>
+          <div className="grid grid-cols-2 gap-4">
+            <Link to="#" className="text-blue-500 hover:underline">네이버</Link>
+            <Link to="#" className="text-blue-500 hover:underline">네이버</Link>
+            <Link to="#" className="text-blue-500 hover:underline">네이버</Link>
+            <Link to="#" className="text-blue-500 hover:underline">네이버</Link>
+          </div>
+        </div>
+
+        <div>
+          <h3 className="font-medium mb-2">경력</h3>
+          <div className="space-y-2">
+            <p className="text-gray-600">동양 2024.01 ~ 2024.12</p>
+            <p className="text-gray-600">마스외전 2025.01 ~ 재직중</p>
+          </div>
+        </div>
+
+        <div>
+          <h3 className="font-medium mb-2">수상이력</h3>
+          <div className="space-y-2">
+            <p className="text-gray-600">자격증 연계 금상 2024.01</p>
+          </div>
+        </div>
+
+        <div>
+          <h3 className="font-medium mb-2">자격증</h3>
+          <div className="space-y-2">
+            <div>
+              <p className="text-gray-600">정보처리기사 2024.01</p>
+              <p className="text-gray-600">DB 2024.12</p>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <h3 className="font-medium mb-2">활동 이력</h3>
+          <div className="space-y-2">
+            <p className="text-gray-600">자격증 연계 2024.01 ~ 2024.12</p>
+          </div>
+        </div>
+
+        <div>
+          <h3 className="font-medium mb-2">백 엔드, 개발 PL, 프로젝트 PM</h3>
+          <p className="text-gray-600">
+            프로젝트의 전반적인 이해도가 높으며, 팀원들과의 원활한 소통으로 
+            프로젝트를 성공적으로 이끌어낸 경험이 있습니다.
+          </p>
+        </div>
+      </div>
+    </div>
+  )
 
   return (
     <div className="md:space-y-6">
@@ -200,192 +344,51 @@ export const RecommendedProjectsPage = () => {
                 }}
               >
                 <div className="relative h-full bg-white rounded-lg shadow-sm border mx-4">
-                  {/* 간단 프로필 */}
-                  <motion.div
-                    className="h-full"
+                  <HTMLFlipBook
+                    width={window.innerWidth - 32}
+                    height={window.innerHeight - 108}
+                    size="stretch"
+                    minWidth={300}
+                    maxWidth={1000}
+                    minHeight={400}
+                    maxHeight={1000}
+                    maxShadowOpacity={0.5}
+                    showCover={false}
+                    mobileScrollSupport={true}
+                    onFlip={() => {
+                      setShowDetail(!showDetail)
+                      setSelectedUser(showDetail ? null : user.id)
+                    }}
+                    className="stf__parent"
                     style={{
-                      transformStyle: 'preserve-3d',
-                      perspective: '1000px',
+                      position: 'relative',
+                      display: 'block',
+                      zIndex: 1
                     }}
-                    animate={{ 
-                      rotateY: showDetail ? -90 : 0,
-                      x: showDetail ? '-50%' : 0,
-                    }}
-                    transition={{ 
-                      type: 'spring',
-                      stiffness: 300,
-                      damping: 30,
-                    }}
-                    drag="x"
-                    dragDirectionLock
-                    dragConstraints={{ left: 0, right: 0 }}
-                    dragElastic={0.2}
-                    onDragEnd={(_, info) => {
-                      if (info.offset.x < -50) {
-                        setShowDetail(true);
-                        setSelectedUser(user.id);
-                      }
-                    }}
+                    ref={(el) => (flipBookRef.current = el)}
+                    startPage={0}
+                    drawShadow={true}
+                    flippingTime={1000}
+                    usePortrait={true}
+                    startZIndex={0}
+                    autoSize={true}
+                    clickEventForward={false}
+                    useMouseEvents={true}
+                    swipeDistance={30}
+                    showPageCorners={true}
+                    disableFlipByClick={false}
                   >
-                    <div className="p-6">
-                      <div className="flex items-center justify-between mb-4">
-                        <h3 className="text-lg font-semibold">{user.name}</h3>
-                        <div className="flex items-center gap-4 text-gray-500">
-                          <div className="flex items-center gap-1">
-                            <span className="text-sm">{user.linkCount}</span>
-                          </div>
-                          <div className="flex items-center gap-1">
-                            <span className="text-sm">{user.starCount}</span>
-                          </div>
-                        </div>
+                    <Page>
+                      <div className="absolute inset-0 p-6 overflow-y-auto">
+                        <SimpleView user={user} />
                       </div>
-
-                      {/* 설명 추가 */}
-                      <p className="text-gray-700 mb-4">{user.description}</p>
-
-                      <div className="flex-1 divide-y divide-gray-100">
-                        <div className="py-5">
-                          <div className="flex flex-wrap gap-1.5">
-                            {user.techStack.map((tech) => (
-                              <TechBadge key={tech.tech} count={tech.count} tech={tech.tech} />
-                            ))}
-                          </div>
-                        </div>
-
-                        <div className="py-5">
-                          <div className="flex flex-wrap gap-1.5">
-                            {user.roles.map((role) => (
-                              <SkillBadge key={role} skill={role} />
-                            ))}
-                          </div>
-                        </div>
-
-                        <div className="py-5">
-                          <div className="flex flex-wrap gap-1.5">
-                            {user.position.map((pos) => (
-                              <SkillBadge key={pos} skill={pos} />
-                            ))}
-                          </div>
-                        </div>
-
-                        <div className="py-5">
-                          <div className="flex flex-wrap gap-1.5">
-                            {user.preferences.map((pref) => (
-                              <PreferenceBadge key={pref} preference={pref} />
-                            ))}
-                          </div>
-                        </div>
+                    </Page>
+                    <Page>
+                      <div className="absolute inset-0 p-6 overflow-y-auto">
+                        <DetailView user={user} />
                       </div>
-                    </div>
-                  </motion.div>
-
-                  {/* 상세 프로필 */}
-                  <motion.div
-                    className="absolute inset-0 bg-white"
-                    style={{
-                      transformStyle: 'preserve-3d',
-                      perspective: '1000px',
-                      backfaceVisibility: 'hidden',
-                    }}
-                    initial={{ rotateY: 90 }}
-                    animate={{ 
-                      rotateY: showDetail ? 0 : 90,
-                      x: showDetail ? 0 : '50%',
-                    }}
-                    transition={{ 
-                      type: 'spring',
-                      stiffness: 300,
-                      damping: 30,
-                    }}
-                    drag="x"
-                    dragDirectionLock
-                    dragConstraints={{ left: 0, right: 0 }}
-                    dragElastic={0.2}
-                    onDragEnd={(_, info) => {
-                      if (info.offset.x > 50) {
-                        setShowDetail(false);
-                        setSelectedUser(null);
-                      }
-                    }}
-                  >
-                    <div className="p-6">
-                      <div className="flex items-center gap-2 mb-6">
-                        <h2 className="text-xl font-bold">{user.name} 상세 프로필</h2>
-                      </div>
-
-                      <div className="space-y-6">
-                        <div>
-                          <h3 className="font-medium mb-2">홀길동</h3>
-                          <p className="text-gray-600">010-9076-3143</p>
-                          <p className="text-gray-600">2001.01</p>
-                          <div className="flex gap-2 mt-2">
-                            <span className="px-2 py-1 text-sm bg-gray-100 rounded">학생</span>
-                            <span className="px-2 py-1 text-sm bg-gray-100 rounded">직장</span>
-                          </div>
-                        </div>
-
-                        <div>
-                          <h3 className="font-medium mb-2">소개</h3>
-                          <p className="text-gray-600">
-                            안녕 하세요.<br />
-                            신입 웹 개발자 홀길동 입니다.<br />
-                            희망하는 직무는 프론트 엔드, 백 엔드, PM부분 직무<br />
-                            희망하고 공부 하고 있습니다. 잘부탁 드립니다.
-                          </p>
-                        </div>
-
-                        <div>
-                          <h3 className="font-medium mb-2">URL</h3>
-                          <div className="grid grid-cols-2 gap-4">
-                            <Link to="#" className="text-blue-500 hover:underline">네이버</Link>
-                            <Link to="#" className="text-blue-500 hover:underline">네이버</Link>
-                            <Link to="#" className="text-blue-500 hover:underline">네이버</Link>
-                            <Link to="#" className="text-blue-500 hover:underline">네이버</Link>
-                          </div>
-                        </div>
-
-                        <div>
-                          <h3 className="font-medium mb-2">경력</h3>
-                          <div className="space-y-2">
-                            <p className="text-gray-600">동양 2024.01 ~ 2024.12</p>
-                            <p className="text-gray-600">마스외전 2025.01 ~ 재직중</p>
-                          </div>
-                        </div>
-
-                        <div>
-                          <h3 className="font-medium mb-2">수상이력</h3>
-                          <div className="space-y-2">
-                            <p className="text-gray-600">자격증 연계 금상 2024.01</p>
-                          </div>
-                        </div>
-
-                        <div>
-                          <h3 className="font-medium mb-2">자격증</h3>
-                          <div className="space-y-2">
-                            <div>
-                              <p className="text-gray-600">정보처리기사 2024.01</p>
-                              <p className="text-gray-600">DB 2024.12</p>
-                            </div>
-                          </div>
-                        </div>
-
-                        <div>
-                          <h3 className="font-medium mb-2">활동 이력</h3>
-                          <div className="space-y-2">
-                            <p className="text-gray-600">자격증 연계 2024.01 ~ 2024.12</p>
-                          </div>
-                        </div>
-
-                        <div>
-                          <h3 className="font-medium mb-2">백 엔드, 개발 PL, 프로젝트 PM</h3>
-                          <p className="text-gray-600">
-                            프로젝트의 전반적인 이해도가 높으며, 팀원들과의 원활한 소통으로 
-                            프로젝트를 성공적으로 이끌어낸 경험이 있습니다.
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-                  </motion.div>
+                    </Page>
+                  </HTMLFlipBook>
                 </div>
               </motion.div>
             ))}
