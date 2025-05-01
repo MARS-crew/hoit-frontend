@@ -2,6 +2,12 @@ import { Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import { useState, useEffect, useRef, forwardRef } from 'react'
 import HTMLFlipBook from 'react-pageflip'
+import { Swiper, SwiperSlide } from 'swiper/react'
+import { EffectCube } from 'swiper/modules'
+import type { SwiperProps } from 'swiper/react'
+
+import 'swiper/css'
+import 'swiper/css/effect-cube'
 
 const useMediaQuery = (query: string) => {
   const [matches, setMatches] = useState(false)
@@ -65,7 +71,28 @@ export const RecommendedProjectsPage = () => {
   const [showDetail, setShowDetail] = useState(false)
   const [selectedUser, setSelectedUser] = useState<string | null>(null)
   const isDesktop = useMediaQuery('(min-width: 768px)')
-  const flipBookRef = useRef<any>(null)
+  const verticalSwiperRef = useRef<any>(null)
+
+  const SwiperConfig: SwiperProps = {
+    effect: 'cube',
+    grabCursor: true,
+    cubeEffect: {
+      shadow: true,
+      slideShadows: true,
+      shadowOffset: 20,
+      shadowScale: 0.94,
+    },
+    modules: [EffectCube],
+    onSlideChange: (swiper) => {
+      const isDetail = swiper.activeIndex === 1;
+      setShowDetail(isDetail);
+      if (isDetail) {
+        verticalSwiperRef.current.allowTouchMove = false;
+      } else {
+        verticalSwiperRef.current.allowTouchMove = true;
+      }
+    }
+  }
 
   const recommendedUsers = [
     {
@@ -299,100 +326,46 @@ export const RecommendedProjectsPage = () => {
         <div className="fixed top-0 left-0 right-0 z-10 bg-white">
           <h1 className="text-2xl font-bold p-4 border-b">추천 프로젝트</h1>
         </div>
-        <div className="absolute inset-0 top-[60px] pt-4 pb-24">
-          <div className="absolute inset-0 overflow-hidden">
-            {recommendedUsers.map((user, index) => (
-              <motion.div
-                key={user.id}
-                style={{
-                  position: 'absolute',
-                  width: '100%',
-                  height: '100%'
-                }}
-                initial={{ y: index === 0 ? 0 : '100%' }}
-                animate={{ 
-                  y: `${(index - currentIndex) * 100}%`,
-                  scale: index === currentIndex ? 1 : 0.95,
-                }}
-                transition={{
-                  type: 'spring',
-                  stiffness: 300,
-                  damping: 30
-                }}
-                drag="y"
-                dragDirectionLock
-                dragConstraints={{
-                  top: 0,
-                  bottom: 0
-                }}
-                dragElastic={0.2}
-                onDragEnd={(_, info) => {
-                  const swipe = info.offset.y;
-                  const velocity = info.velocity.y;
-
-                  if (swipe < -50 || velocity < -500) {
-                    if (currentIndex < recommendedUsers.length - 1) {
-                      setCurrentIndex(currentIndex + 1);
-                      setShowDetail(false);
-                    }
-                  } else if (swipe > 50 || velocity > 500) {
-                    if (currentIndex > 0) {
-                      setCurrentIndex(currentIndex - 1);
-                      setShowDetail(false);
-                    }
-                  }
-                }}
-              >
-                <div className="relative h-full bg-white rounded-lg shadow-sm border mx-4">
-                  <HTMLFlipBook
-                    width={window.innerWidth - 32}
-                    height={window.innerHeight - 108}
-                    size="stretch"
-                    minWidth={300}
-                    maxWidth={1000}
-                    minHeight={400}
-                    maxHeight={1000}
-                    maxShadowOpacity={0.5}
-                    showCover={false}
-                    mobileScrollSupport={true}
-                    onFlip={() => {
-                      setShowDetail(!showDetail)
-                      setSelectedUser(showDetail ? null : user.id)
-                    }}
-                    className="stf__parent"
-                    style={{
-                      position: 'relative',
-                      display: 'block',
-                      zIndex: 1
-                    }}
-                    ref={(el) => (flipBookRef.current = el)}
-                    startPage={0}
-                    drawShadow={true}
-                    flippingTime={1000}
-                    usePortrait={true}
-                    startZIndex={0}
-                    autoSize={true}
-                    clickEventForward={false}
-                    useMouseEvents={true}
-                    swipeDistance={30}
-                    showPageCorners={true}
-                    disableFlipByClick={false}
-                  >
-                    <Page>
-                      <div className="absolute inset-0 p-6 overflow-y-auto">
-                        <SimpleView user={user} />
-                      </div>
-                    </Page>
-                    <Page>
-                      <div className="absolute inset-0 p-6 overflow-y-auto">
-                        <DetailView user={user} />
-                      </div>
-                    </Page>
-                  </HTMLFlipBook>
+        <div className="absolute inset-0 top-[60px] bottom-[56px]">
+          <Swiper
+            direction="vertical"
+            slidesPerView={1}
+            onSlideChange={(swiper) => {
+              if (!showDetail) {
+                setCurrentIndex(swiper.activeIndex)
+              }
+            }}
+            className="h-full"
+            onBeforeInit={(swiper) => {
+              verticalSwiperRef.current = swiper;
+            }}
+          >
+            {recommendedUsers.map((user) => (
+              <SwiperSlide key={user.id} className="h-full">
+                <div className="h-full bg-white">
+                  <div className="h-full">
+                    <Swiper
+                      {...SwiperConfig}
+                      className="h-full [&_.swiper-cube-shadow]:hidden"
+                      allowSlideNext={!showDetail}
+                      allowSlidePrev={true}
+                    >
+                      <SwiperSlide className="h-full">
+                        <div className="h-full p-6 overflow-y-auto">
+                          <SimpleView user={user} />
+                        </div>
+                      </SwiperSlide>
+                      <SwiperSlide className="h-full">
+                        <div className="h-full p-6 overflow-y-auto">
+                          <DetailView user={user} />
+                        </div>
+                      </SwiperSlide>
+                    </Swiper>
+                  </div>
                 </div>
-              </motion.div>
+              </SwiperSlide>
             ))}
-          </div>
+          </Swiper>
         </div>
       </div>
 
