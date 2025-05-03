@@ -44,6 +44,9 @@ importers:
       react-icons:
         specifier: ^5.5.0
         version: 5.5.0(react@18.3.1)
+      react-id-swiper:
+        specifier: ^4.0.0
+        version: 4.0.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(swiper@11.0.5)
       react-pageflip:
         specifier: ^2.0.3
         version: 2.0.3
@@ -75,6 +78,9 @@ importers:
       '@types/serviceworker':
         specifier: ^0.0.120
         version: 0.0.120
+      '@types/swiper':
+        specifier: ^6.0.0
+        version: 6.0.0
       '@typescript-eslint/eslint-plugin':
         specifier: ^6.21.0
         version: 6.21.0(@typescript-eslint/parser@6.21.0(eslint@8.57.1)(typescript@5.8.3))(eslint@8.57.1)(typescript@5.8.3)
@@ -1336,6 +1342,10 @@ packages:
 
   '@types/serviceworker@0.0.120':
     resolution: {integrity: sha512-pVe9ZC82J4uRw+v35TAydtsBAbX1V79uZ0H0rQNtx7oFPImuKY1FTEqSbjTMOtAmb5AWS6z2FFCShu6WMylNng==}
+
+  '@types/swiper@6.0.0':
+    resolution: {integrity: sha512-QPZRgxZ+ivXXtzV43B3LxpXUIC7FE/EoKM+rtxngmgt2M7eeUYypZhyqZD8UxJtlBcUDw/ATGoVeSNpvBBrz2w==}
+    deprecated: This is a stub types definition. swiper provides its own type definitions, so you do not need this installed.
 
   '@types/through@0.0.33':
     resolution: {integrity: sha512-HsJ+z3QuETzP3cswwtzt2vEIiHBk/dCcHGhbmG5X3ecnwFD/lPrMpliGXxSCg03L9AhrdwA4Oz/qfspkDW+xGQ==}
@@ -3479,6 +3489,14 @@ packages:
     peerDependencies:
       react: '*'
 
+  react-id-swiper@4.0.0:
+    resolution: {integrity: sha512-BFY8VQYgc1ECkT1Ek6MYSF8MADjWYZctdeRlMA202mjGcdjq1Bugfhg207KHTjGWKWZlY/7/nxFShqQo74RslA==}
+    engines: {node: '>= 6.11.0'}
+    peerDependencies:
+      react: '>=16.8.0'
+      react-dom: '>=16.8.0'
+      swiper: '>=5.0.0'
+
   react-is@16.13.1:
     resolution: {integrity: sha512-24e6ynE2H+OKt4kqsOvNd8kBpV65zoxbA4BVsEOB3ARVWQki/DHzaUoC5KuON/BiccDaCCTZBuOcfZs70kR8bQ==}
 
@@ -5508,6 +5526,10 @@ snapshots:
   '@types/semver@7.7.0': {}
 
   '@types/serviceworker@0.0.120': {}
+
+  '@types/swiper@6.0.0':
+    dependencies:
+      swiper: 11.0.5
 
   '@types/through@0.0.33':
     dependencies:
@@ -7911,6 +7933,13 @@ snapshots:
   react-icons@5.5.0(react@18.3.1):
     dependencies:
       react: 18.3.1
+
+  react-id-swiper@4.0.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(swiper@11.0.5):
+    dependencies:
+      object-assign: 4.1.1
+      react: 18.3.1
+      react-dom: 18.3.1(react@18.3.1)
+      swiper: 11.0.5
 
   react-is@16.13.1: {}
 

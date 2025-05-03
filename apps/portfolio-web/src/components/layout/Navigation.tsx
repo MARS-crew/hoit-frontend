@@ -16,7 +16,7 @@ const navItems = [
   },
   { 
     path: '/projects', 
-    label: '프로젝트',
+    label: '내 프로젝트',
     icon: RiListUnordered,
     activeIcon: RiListCheck
   },
