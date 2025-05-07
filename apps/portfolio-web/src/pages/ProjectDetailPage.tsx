@@ -35,17 +35,9 @@ export const ProjectDetailPage = () => {
   const [showDetail, setShowDetail] = useState(false)
   const [currentIndex, setCurrentIndex] = useState(0)
   const verticalSwiperRef = useRef<any>(null)
+  const horizontalSwiperRef = useRef<any>(null)
 
   const tabs: TabType[] = isEngineerProject ? ['상세'] : ['상세', '현황', '추천']
-
-  const handleTabChange = (direction: 'left' | 'right') => {
-    const currentIndex = tabs.indexOf(activeTab)
-    if (direction === 'left' && currentIndex < tabs.length - 1) {
-      setActiveTab(tabs[currentIndex + 1])
-    } else if (direction === 'right' && currentIndex > 0) {
-      setActiveTab(tabs[currentIndex - 1])
-    }
-  }
 
   const SwiperConfig: SwiperProps = {
     effect: 'cube',
@@ -163,8 +155,8 @@ export const ProjectDetailPage = () => {
 
       <div className="space-y-6">
         <div>
-          <h3 className="font-medium mb-2">홀길동</h3>
-          <p className="text-gray-600">010-9076-3143</p>
+          <h3 className="font-medium mb-2">문효찬</h3>
+          <p className="text-gray-600">010-3320-1484</p>
           <p className="text-gray-600">2001.01</p>
           <div className="flex gap-2 mt-2">
             <span className="px-2 py-1 text-sm bg-gray-100 rounded">학생</span>
@@ -236,21 +228,29 @@ export const ProjectDetailPage = () => {
   )
 
   const renderTabContent = () => {
-    switch (activeTab) {
-      case '상세':
-        return (
-          <div className="w-full px-4 pt-4">
+    return (
+      <Swiper
+      initialSlide={tabs.indexOf(activeTab)}
+        onSwiper={(swiper) => {
+          horizontalSwiperRef.current = swiper;
+        }}
+        onSlideChange={(swiper) => {
+          setActiveTab(tabs[swiper.activeIndex]);
+        }}
+        allowTouchMove={!showDetail}
+        className="h-full flex-1"
+      >
+        <SwiperSlide className="h-full">
+          <div className="w-full h-full px-4 pt-4">
             <h2 className="text-lg font-semibold">프로젝트 상세</h2>
           </div>
-        )
-      case '현황':
-        return (
-          <div className="w-full px-4 pt-4">
+        </SwiperSlide>
+        <SwiperSlide className="h-full">
+          <div className="w-full h-full px-4 pt-4">
             <h2 className="text-lg font-semibold">프로젝트 현황</h2>
           </div>
-        )
-      case '추천':
-        return (
+        </SwiperSlide>
+        <SwiperSlide className="h-full">
           <div className="w-full h-full">
             <Swiper
               direction="vertical"
@@ -289,8 +289,9 @@ export const ProjectDetailPage = () => {
               ))}
             </Swiper>
           </div>
-        )
-    }
+        </SwiperSlide>
+      </Swiper>
+    )
   }
 
   return (
@@ -303,19 +304,22 @@ export const ProjectDetailPage = () => {
             className={`flex-1 py-4 text-center font-medium relative ${
               activeTab === tab ? 'text-indigo-600' : 'text-gray-500'
             }`}
-            onClick={() => setActiveTab(tab as TabType)}
+            onClick={() => {
+              setActiveTab(tab as TabType);
+              horizontalSwiperRef.current?.slideTo(tabs.indexOf(tab));
+            }}
           >
             {tab}
             {activeTab === tab && (
-              <motion.div
-                className="absolute bottom-0 left-0 right-0 h-0.5 bg-indigo-600"
-                layoutId="tab-indicator"
-              />
+              <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-indigo-600">
+              </div>
             )}
           </button>
         ))}
       </div>
+      <div className="flex-1 overflow-hidden">
         {renderTabContent()}
+      </div>
     </div>
   )
 } 
