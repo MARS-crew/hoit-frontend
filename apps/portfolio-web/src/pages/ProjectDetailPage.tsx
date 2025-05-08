@@ -227,10 +227,31 @@ export const ProjectDetailPage = () => {
     </div>
   )
 
+  const VideoProfilePage = () => (
+    <div className="h-full p-6">
+      <div className="max-w-2xl mx-auto">
+        <motion.div 
+          className="p-6"
+          animate={{
+            y: [0, -50, 0],
+          }}
+          transition={{
+            duration: 1.0,
+            repeat: Infinity,
+            repeatDelay: 3,
+            ease: "easeInOut"
+          }}
+        >
+          영상 프로필 페이지
+        </motion.div>
+      </div>
+    </div>
+  )
+
   const renderTabContent = () => {
     return (
       <Swiper
-      initialSlide={tabs.indexOf(activeTab)}
+        initialSlide={tabs.indexOf(activeTab)}
         onSwiper={(swiper) => {
           horizontalSwiperRef.current = swiper;
         }}
@@ -273,6 +294,9 @@ export const ProjectDetailPage = () => {
                       allowSlideNext={!showDetail}
                       allowSlidePrev={true}
                     >
+                      <SwiperSlide className="h-full">
+                        <VideoProfilePage />
+                      </SwiperSlide>
                       <SwiperSlide className="h-full">
                         <div className="h-full p-6 overflow-y-auto">
                           <SimpleView user={user} />
