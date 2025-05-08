@@ -50,7 +50,7 @@ export const ProjectDetailPage = () => {
     },
     modules: [EffectCube],
     onSlideChange: (swiper) => {
-      const isDetail = swiper.activeIndex === 1;
+      const isDetail = swiper.activeIndex === 2;
       setShowDetail(isDetail);
       if (isDetail) {
         verticalSwiperRef.current.allowTouchMove = false;
@@ -291,7 +291,7 @@ export const ProjectDetailPage = () => {
                     <Swiper
                       {...SwiperConfig}
                       className="h-full [&_.swiper-cube-shadow]:hidden"
-                      allowSlideNext={!showDetail}
+                      allowSlideNext={true}
                       allowSlidePrev={true}
                     >
                       <SwiperSlide className="h-full">
